@@ -1,0 +1,78 @@
+/* Sidebar Container */
+.sidebar {
+  width: 16vw;
+  background-color: #16a34a; /* White background */
+  color: #333; /* Dark gray text */
+  height: 100vh;
+  padding: 1vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 2px 4px 4px 2px rgba(0, 0, 0, 0.1); /* Lighter shadow for cleaner look */
+}
+
+/* Sidebar List */
+.sidebar-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-item {
+  padding: 0.6vw 0.9vw;
+  font-size: 1.2vw;
+  cursor: pointer;
+  border-radius: 0.5vw;
+  margin: 0 0;
+  color: #ffffff; /* Dark text */
+  transition: all ease 0.2s;
+}
+
+.sidebar-item:hover {
+  background-color: #f0f0f0;
+  color: #444; /* Light gray on hover */
+  transform: translateX(0.3vw);
+}
+
+/* User Box */
+.user-box {
+  margin-top: 2vh;
+  padding: 1vw;
+  text-align: center;
+  background-color: #f5f5f5; /* Very light gray */
+  border-radius: 1vw;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.user-avatar {
+  width: 4vw;
+  height: 4vw;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 0.2vw solid #ddd; /* Light gray border */
+  margin-bottom: 1vh;
+}
+
+.user-name {
+  font-size: 1vw;
+  color: #555; /* Medium gray for user name */
+  font-weight: bold;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .sidebar {
+      width: 20vw;
+  }
+  .sidebar-item {
+      font-size: 1.5vw;
+      padding: 1vw;
+  }
+  .user-avatar {
+      width: 5vw;
+      height: 5vw;
+  }
+  .user-name {
+      font-size: 1.3vw;
+  }
+}

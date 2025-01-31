@@ -1,0 +1,61 @@
+.card {
+  margin-top: 5vw;
+  width: 30vw;
+  height: 35vw;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+
+.avatarContainer {
+  width: 7vw;
+  height: 7vw;
+  margin: 0 auto;
+  border: 0.3vw solid #00c42e;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 7vw;
+  height: 7vw;
+  border-radius: 50%;
+}
+
+.name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.username {
+  color: #555;
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.divider {
+  margin: 10px 0;
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+.details {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.details li {
+  font-size: 0.9rem;
+  margin: 5px 0;
+}
+
+.workingHours {
+  margin-top: 15px;
+  color: #777;
+  font-size: 0.9rem;
+}

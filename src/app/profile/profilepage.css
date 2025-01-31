@@ -1,0 +1,62 @@
+.profilepage {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  color: #333;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.leftsection{
+  display: flex;
+  justify-content: center;
+  width: 45vw;
+
+}
+.rightsection{
+  width: 55vw;
+  margin-right: 2vw;
+}
+main {
+  padding: 20px 0;
+}
+
+main h1 {
+  margin-bottom: 20px;
+}
+
+.orders {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.order {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+}
+
+.order h2 {
+  margin: 0 0 10px;
+}
+
+.order .btn {
+  display: inline-block;
+  padding: 10px 15px;
+  color: #fff;
+  background: #333;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+footer {
+  text-align: center;
+  padding: 10px 0;
+  background: #333;
+  color: #fff;
+  margin-top: 20px;
+}
