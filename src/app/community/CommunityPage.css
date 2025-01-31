@@ -9,7 +9,7 @@
 }
 
 .post-section {
-  width: 78vw;
+  width: 84vw;
   padding: 2vw;
   display: flex;
   flex-direction: column;
@@ -116,7 +116,7 @@
 /* Textarea Styling */
 .postform-input {
   height: 8vw;
-  width: 75vw;
+  width: 78vw;
   padding-left: 1vw;
   padding-top: 1vw;
   font-family: Arial;
