@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster"
 
 import localFont from 'next/font/local'
 import AuthProvidder from "@/context/AuthProvider";
@@ -24,6 +25,7 @@ export default function RootLayout({
         <body className="vsc-initialized">
           <Navbar />
           {children}
+          <Toaster />
         </body>
       </AuthProvidder>
     </html>
