@@ -145,6 +145,20 @@ const SignInCard: React.FC = () => {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input placeholder="password" {...field} />
+                    </FormControl>
+
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
               <Button className="button email" type="submit">
                 {isSubmitting ? (
