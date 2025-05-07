@@ -127,7 +127,9 @@ body {
   justify-content: center;
   margin-top: 1.5rem;
 }
-
+.stay{
+  position: absolute;
+}
 .hero-input {
   border: 1px solid #c2c2c2;
   background-color: #f6f6f6;

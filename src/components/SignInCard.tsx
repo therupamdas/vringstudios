@@ -119,13 +119,11 @@ const SignInCard: React.FC = () => {
                     </FormControl>
                     {isCheckingUsername && <Loader2 className="animate-spin" />}
                     <p
-                      className={`text-sm ${
-                        usernameMessage === "Username is unique"
-                          ? "text-green-500"
-                          : "text-red-500"
+                      className={`text-sm stay ${
+                        usernameMessage === "Username is unique"?"text-green-500":"text-red-500"
                       }`}
                     >
-                      test {usernameMessage}
+                      {usernameMessage}
                     </p>
                     <FormMessage />
                   </FormItem>

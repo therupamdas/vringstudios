@@ -17,6 +17,6 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',          // Match the home route
-   '/profile'    // Match the profile route
+   //'/profile'    // Match the profile route
   ],
 };

@@ -3,6 +3,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import SignInCard from './SignInCard';
 import { useSession, signIn, signOut } from "next-auth/react"
+import {User} from 'next-auth'
+
 
 const Navbar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +30,8 @@ const Navbar = () => {
     };
   }, [isModalOpen]);
   const { data: session } = useSession();
-  
+  const user: User = session?.user as User
+
 
   return (
     <nav className="navbar">

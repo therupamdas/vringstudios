@@ -41,7 +41,7 @@ export async function GET(request: Request) {
       );
     } else {
       return NextResponse.json(
-        { success: true, message: "Username is available" },
+        { success: true, message: "Username is unique" },
         { status: 200 }
       );
     }
