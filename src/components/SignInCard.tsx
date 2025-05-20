@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useDebounceValue, useDebounceCallback } from "usehooks-ts";
 import { useToast } from "@/hooks/use-toast";
 
+
 import React from "react";
 import "./SignInCard.css";
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -166,7 +167,7 @@ const SignInCard: React.FC = () => {
                   </>
                 ) : (
                   "Signup with Email"
-                )}
+                ) }
               </Button>
             </form>
           </Form>

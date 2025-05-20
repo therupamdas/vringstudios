@@ -27,7 +27,7 @@ const Sidebar = () => {
           </div>
         ) : (
           <div className="user-box">
-            <img className="user-avatar" src={session.user.image || ""} alt="User Avatar" />
+            <img className="user-avatar"src={session.user.image || '/groupie.jpg'} alt="User Avatar" />
             <b className="user-name">{session.user.name || "Username"}</b>
           </div>
         )}

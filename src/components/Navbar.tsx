@@ -52,7 +52,7 @@ const Navbar = () => {
         }
         {session && (
           <div className="profilemenu">
-            <Image src='/groupie.jpg' alt="User Avatar" width={40} height={40} className="profilelogo" />
+            <Image src={session.user.image || '/groupie.jpg'} alt="User Avatar" width={40} height={40} className="profilelogo" />
             <ul className="dropdown">
               <li><a href="/profile">Profile</a></li>
               <li><a href="/buying">Buying</a></li>
