@@ -1,191 +1,58 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useDebounceValue, useDebounceCallback } from "usehooks-ts";
-import { useToast } from "@/hooks/use-toast";
 
-
-import React from "react";
-import "./SignInCard.css";
-import { useSession, signIn, signOut } from "next-auth/react";
+import React, { useState } from "react";
+import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { signUpSchema } from "@/schemas/signUpSchema";
-import axios, { AxiosError } from "axios";
-import { apiResponse } from "@/types/apiResponse";
-import { Form } from "./ui/form";
-import {
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "./ui/form";
-import { Button } from "./ui/button";
-import { Input } from "./ui/input";
-import { Loader2 } from "lucide-react";
-
+import SignUpForm from "./SignUpForm";
+import SignInForm from "./SignInForm";
+import "./SignInCard.css";
 const SignInCard: React.FC = () => {
-  const [username, setUsername] = useState("");
-  const [usernameMessage, setUsernameMessage] = useState("");
-  const [isCheckingUsername, setIsCheckingUsername] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const debounced = useDebounceCallback(setUsername, 300);
-  const { toast } = useToast();
-  const router = useRouter();
-  const form = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
-    defaultValues: {
-      username: "",
-      email: "",
-      password: "",
-    },
-  });
-  useEffect(() => {
-    const checkUsernameUnique = async () => {
-      if (username) {
-        setIsCheckingUsername(true);
-        setUsernameMessage("");
-        try {
-          const response = await axios.get(
-            `/api/checkusername?username=${username}`
-          );
-          setUsernameMessage(response.data.message);
-        } catch (error) {
-          const axiosError = error as AxiosError<apiResponse>;
-          setUsernameMessage(
-            axiosError.response?.data.message ?? "Error Checking username"
-          );
-        } finally {
-          setIsCheckingUsername(false);
-        }
-      }
-    };
-    checkUsernameUnique();
-  }, [username]);
-
-  const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    setIsSubmitting(true);
-    try {
-      const response = await axios.post<apiResponse>("/api/sign-up", data);
-      toast({
-        title: "Success",
-        description: response.data.message,
-      });
-      router.replace(`/verify/${username}`);
-      setIsSubmitting(false);
-      form.reset();
-    } catch (error) {
-      console.error("Error in signup of user", error);
-      const axiosError = error as AxiosError<apiResponse>;
-      let errorMessage = axiosError.response?.data.message;
-      toast({
-        title: "Sign up failed",
-        description: errorMessage,
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
-    }
-  };
-
+  const [isSignUp, setIsSignUp] = useState(true);
   const { data: session } = useSession();
 
   return (
     <div className="container">
       <div className="cardleft"></div>
       <div className="card">
-        <h2 className="card-title">Sign Up</h2>
+        <div className="tab-switch-container">
+          <div className={`tab-background ${isSignUp ? "left" : "right"}`}></div>
+          <button
+            className={`tab-btn ${isSignUp ? "active" : ""}`}
+            onClick={() => setIsSignUp(true)}
+          >
+            Sign Up
+          </button>
+          <button
+            className={`tab-btn ${!isSignUp ? "active" : ""}`}
+            onClick={() => setIsSignUp(false)}
+          >
+            Log In
+          </button>
+        </div>
         <p className="card-description">Choose a method to sign in below:</p>
-
         <div className="button-group">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="username"
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                          debounced(e.target.value);
-                        }}
-                      />
-                    </FormControl>
-                    {isCheckingUsername && <Loader2 className="animate-spin" />}
-                    <p
-                      className={`text-sm stay ${
-                        usernameMessage === "Username is unique"?"text-green-500":"text-red-500"
-                      }`}
-                    >
-                      {usernameMessage}
-                    </p>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="email" {...field} />
-                    </FormControl>
+          {isSignUp ? <SignUpForm /> : <SignInForm />}
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder="password" {...field} />
-                    </FormControl>
-
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button className="button email" type="submit">
-                {isSubmitting ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Please wait
-                  </>
-                ) : (
-                  "Signup with Email"
-                ) }
-              </Button>
-            </form>
-          </Form>
           <div className="border-t border-gray-400 my-1" />
 
-
-          <button className="button google">
-            <img
-              src="https://www.svgrepo.com/show/355037/google.svg"
-              alt="Google Icon"
-              className="icon"
-            />
-            Sign in with Google
-          </button>
-
           {!session && (
-            <button onClick={() => signIn("github")} className="button github">
+            <button
+              onClick={() => signIn("google")}
+              className="button google"
+            >
+              <img
+                src="https://www.svgrepo.com/show/355037/google.svg"
+                alt="Google Icon"
+                className="icon"
+              />
+              Sign in with Google
+            </button>
+          )}
+          {!session && (
+            <button
+              onClick={() => signIn("github")}
+              className="button github"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="icon"

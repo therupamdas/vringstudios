@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
           }
           if (!user.isverified) {
             throw new Error("Verify this Email");
-          }
+          } 
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
