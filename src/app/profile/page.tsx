@@ -1,8 +1,9 @@
-"use client";
+"use client"
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import "./profilepage.css";
 import ProfileCard from "@/components/ProfileCard";
+import Newprofile from "@/components/Newprofile";
 import { Message } from "@/model/User";
 import { useToast } from "@/hooks/use-toast";
 import { useSession } from "next-auth/react";
@@ -129,7 +130,8 @@ const Page: React.FC = () => {
     <>
       <div className="profilepage">
         <div className="leftsection">
-          <ProfileCard />
+          {/* <ProfileCard /> */}
+          <Newprofile/>
         </div>
 
         <div className="rightsection">

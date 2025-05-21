@@ -11,9 +11,6 @@ const ProfileCard: React.FC = async() => {
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
-  console.log(getServerSession(authOptions))
-  console.log(session)
-  console.log("kaha hai beby")
 
   return (
     <div className={styles.card}>
