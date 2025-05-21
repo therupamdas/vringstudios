@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import "./profilepage.css";
@@ -34,7 +33,7 @@ const Page: React.FC = () => {
     setIsSwitchLoading(true);
     try {
       const response = await axios.get("/api/acceptMessages");
-      setValue("acceptMessages", response.data.isAcceptingMessage);
+      setValue("acceptMessages", response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<apiResponse>;
       toast({
@@ -197,7 +196,7 @@ export default Page;
 //     setIsSwitchLoading(true);
 //     try {
 //       const response = await axios.get("/api/acceptMessages");
-//       setValue("acceptMessages", response.data.isAcceptingMessage);
+//       setValue("acceptMessages", response.data.);
 //     } catch (error) {
 //       const axiosError = error as AxiosError<apiResponse>;
 //       toast({

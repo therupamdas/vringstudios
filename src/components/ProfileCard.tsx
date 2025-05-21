@@ -2,6 +2,7 @@ import Image from 'next/image';
 import styles from './ProfileCard.module.css';
 import { useSession } from 'next-auth/react';
 import { User } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/options';
 
 
 
@@ -16,13 +17,12 @@ const ProfileCard: React.FC = () => {
         <Image
           src="/Groupie.jpg" // Ensure this image is in the public folder
           alt="User Avatar"
-          width={200}
-          height={200}
-          className={styles.avatar}
+          width={100}
+          height={100}
         />
       </div>
-      <h2 className={styles.name}>{user.name}</h2>
-      <p className={styles.username}>also name</p>
+      <h2 className={styles.name}>{user.username}</h2>
+      <p className={styles.username}>{user._id}</p>
       <hr className={styles.divider} />
       <ul className={styles.details}>
         <li>
