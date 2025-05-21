@@ -77,6 +77,7 @@ const SignInCard: React.FC = () => {
       });
       router.replace(`/verify/${username}`);
       setIsSubmitting(false);
+      form.reset();
     } catch (error) {
       console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<apiResponse>;
@@ -96,12 +97,12 @@ const SignInCard: React.FC = () => {
     <div className="container">
       <div className="cardleft"></div>
       <div className="card">
-        <h2 className="card-title">Sign in</h2>
+        <h2 className="card-title">Sign Up</h2>
         <p className="card-description">Choose a method to sign in below:</p>
 
         <div className="button-group">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
               <FormField
                 control={form.control}
                 name="username"
@@ -171,6 +172,9 @@ const SignInCard: React.FC = () => {
               </Button>
             </form>
           </Form>
+          <div className="border-t border-gray-400 my-1" />
+
+
           <button className="button google">
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"

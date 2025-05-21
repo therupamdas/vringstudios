@@ -20,7 +20,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Button } from "@react-email/components";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const VerifyAccount = () => {
@@ -42,6 +42,7 @@ const VerifyAccount = () => {
         title: "Success",
         description: response.data.message,
       });
+      form.reset();
       router.replace("/");
     } catch (error) {
       console.error("Error in signup of user", error);
@@ -54,6 +55,7 @@ const VerifyAccount = () => {
       });
     }
   };
+
 
   return (
     <div className="containerok">

@@ -41,7 +41,7 @@ export async function POST(request: Request) {
         message: "Message Successful",
         updatedUser
       },
-      { status: 401 }
+      { status: 200 }
     );
   } catch (error) {
     console.log("Failed to update user status");

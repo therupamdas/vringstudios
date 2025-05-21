@@ -21,7 +21,7 @@ const ProfileCard: React.FC = () => {
           className={styles.avatar}
         />
       </div>
-      <h2 className={styles.name}>name</h2>
+      <h2 className={styles.name}>{user.name}</h2>
       <p className={styles.username}>also name</p>
       <hr className={styles.divider} />
       <ul className={styles.details}>
