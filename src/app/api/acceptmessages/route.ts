@@ -3,11 +3,14 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import { NextResponse } from "next/server";
+import { User } from "next-auth";
 
 export async function POST(request: Request) {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
+  const user: User = session?.user as User;
+  
   if (!session || !session.user) {
     return NextResponse.json(
       { success: false, message: "Not Authenticated" },
@@ -15,7 +18,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const userId = (session.user as any)._id;  // keep _id as you requested
+  const userId = user._id;
   const { acceptMessages } = await request.json();
 
   try {
@@ -49,6 +52,7 @@ export async function GET() {
   await dbConnect();
 
   const session = await getServerSession(authOptions);
+  const user: User = session?.user as User;
   if (!session || !session.user) {
     return NextResponse.json(
       { success: false, message: "Not Authenticated" },
@@ -56,13 +60,13 @@ export async function GET() {
     );
   }
 
-  const userId = (session.user as any)._id; // keep _id here too
+  const userId = user._id; // keep _id here too
 
   try {
     const foundUser = await UserModel.findById(userId);
     if (!foundUser) {
       return NextResponse.json(
-        { success: false, message: "User Not Found" },
+        { success: false, message: "User Not Found am" },
         { status: 404 }
       );
     }
@@ -73,6 +77,7 @@ export async function GET() {
     );
   } catch (error) {
     console.error("Error fetching user messages status", error);
+    console.log("Error in getting Messages");
     return NextResponse.json(
       { success: false, message: "Error in getting Messages" },
       { status: 500 }

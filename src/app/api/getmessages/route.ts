@@ -9,6 +9,7 @@ export async function GET(request: Request) {
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
+   
   if (!session || !session.user) {
     return Response.json(
       {
@@ -36,7 +37,7 @@ export async function GET(request: Request) {
         return Response.json(
             {
               success: false,
-              message: "User not found",
+              message: "User Not found(send)",
             },
             { status: 401 }
           );

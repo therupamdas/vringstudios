@@ -67,7 +67,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (token) {
         session.user = {
-          ...session.user,
+           ...session.user,
           _id: token._id?.toString(),
           isverified: token.isverified,
           isAcceptingMessages: token.isAcceptingMessages,
@@ -87,5 +87,5 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXT_AUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
 };
