@@ -23,11 +23,11 @@ const Page: React.FC = () => {
 
           <div className="post-card">
             <div className="user-info">
-              <img className="user-image" src="ok" alt="User" />
+              <img className="user-image" src="/Groupie.jpg" alt="User" />
               <p className="username">username</p>
             </div>
             <div className="user-request">
-              <p>order</p>
+              <p>Description Description Description Description Description Description Description Description Description Description Description Description Description Description Description</p>
             </div>
             <div className="action-buttons">
               <button className="btn accept-btn">Accept</button>

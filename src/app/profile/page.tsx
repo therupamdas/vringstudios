@@ -1,11 +1,11 @@
-"use client"
+"use client";
 import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import "./profilepage.css";
 import ProfileCard from "@/components/ProfileCard";
 import Newprofile from "@/components/Newprofile";
 import { Message } from "@/model/User";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useSession } from "next-auth/react";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { useForm } from "react-hook-form";
@@ -13,22 +13,32 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
 import { apiResponse } from "@/types/apiResponse";
 import { User } from "next-auth";
+import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Card } from "@/components/ui/card";
+import { MessageCard } from "@/components/MessageCard";
 
 const Page: React.FC = () => {
-  
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [profileUrl, setProfileUrl] = useState("");
 
   const { toast } = useToast();
+
+  const handleDeleteMessage = (messageId: string) => {
+    setMessages(messages.filter((message) => message._id !== messageId));
+  };
+
   const { data: session } = useSession();
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
   });
 
-  const { watch, setValue } = form;
+  const { register, watch, setValue } = form;
+
   const acceptMessages = watch("acceptMessages");
 
   const fetchAcceptMessages = useCallback(async () => {
@@ -130,13 +140,51 @@ const Page: React.FC = () => {
     <>
       <div className="profilepage">
         <div className="leftsection">
-          {/* <ProfileCard /> */}
-          <Newprofile/>
+          <Newprofile />
         </div>
 
         <div className="rightsection">
           <main className="containerprofile">
+            <div className="mb-4">
+              <Switch
+                {...register("acceptMessages")}
+                checked={acceptMessages}
+                onCheckedChange={handleSwitchChange}
+                disabled={isSwitchLoading}
+              />
+              <span className="ml-2">
+                Accept Orders: {acceptMessages ? "On" : "Off"}
+              </span>
+            </div>
+            <h2 className="text-lg font-semibold mb-2">
+              Copy Your Account Address
+            </h2>
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={profileUrl}
+                disabled
+                className="input input-bordered w-full p-2 mr-2 border rounded border-#0"
+              />
+              <Button onClick={copyToClipboard}>Copy</Button>
+            </div>
+            <Separator className="my-6" />
             <h1>Your Buying Orders</h1>
+
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+              {messages.length > 0 ? (
+                messages.map((message, index) => (
+                  <MessageCard
+                    key={`${message._id}`}
+                    message={message}
+                    onMessageDelete={handleDeleteMessage}
+                  />
+                ))
+              ) : (
+                <p>No messages to display.</p>
+              )}
+            </div>
+
             <div className="orders">
               <div className="order">
                 <h2>Order #1</h2>

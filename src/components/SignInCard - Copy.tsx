@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { useEffect, useState } from "react";
 import { useDebounceValue, useDebounceCallback } from "usehooks-ts";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 
 import React from "react";
 import "./SignInCard.css";

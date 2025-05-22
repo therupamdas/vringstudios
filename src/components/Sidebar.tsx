@@ -1,10 +1,25 @@
 "use client";
 import React from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import Image from "next/image";
+import styles from "./ProfileCard.module.css";
+import { useEffect, useState } from "react";
+import { User } from "@/model/User";
+
 import './Sidebar.css';
 
 const Sidebar = () => {
-  const { data: session } = useSession();
+   const [user, setUser] = useState<User | null>(null);
+  
+    useEffect(() => {
+      async function fetchUser() {
+        const res = await fetch("/api/profile");
+        if (res.ok) {
+          const data = await res.json();
+          setUser(data.user);
+        }
+      }
+      fetchUser();
+    }, []);
   return (
     <div className="sidebar">
       <ul className="sidebar-list">
@@ -16,21 +31,12 @@ const Sidebar = () => {
         <li className="sidebar-item">Portfolio</li>
         <li className="sidebar-item">Careers</li>
 
-        {!session ? (
+
           <div className="user-box">
-            <img
-              className="user-avatar"
-              src="/groupie.jpg"
-              alt="Default Avatar"
-            />
-            <b className="user-name">Please Login</b>
+            <img className="user-avatar"src={'/groupie.jpg'} alt="User Avatar" />
+            <b className="user-name">{user?.username || "Please Login"}</b>
           </div>
-        ) : (
-          <div className="user-box">
-            <img className="user-avatar"src={session.user.image || '/groupie.jpg'} alt="User Avatar" />
-            <b className="user-name">{session.user.name || "Username"}</b>
-          </div>
-        )}
+        
       </ul>
     </div>
   );

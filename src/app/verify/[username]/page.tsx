@@ -3,7 +3,7 @@ import "./verii.css";
 import { useRouter } from "next/navigation";
 import React from "react";
 import { useParams } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
 import { signUpSchema } from "@/schemas/signUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";

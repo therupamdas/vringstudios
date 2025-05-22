@@ -24,7 +24,7 @@ const Newprofile: React.FC = () => {
     <div className={styles.card}>
       <div className={styles.avatarContainer}>
         <Image
-          src={user?.image || "/Groupie.jpg"}
+          src={"/Groupie.jpg"}
           alt="User Avatar"
           width={100}
           height={100}
