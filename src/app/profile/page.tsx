@@ -63,11 +63,14 @@ const Page: React.FC = () => {
 
   const fetchMessages = useCallback(async (refresh = false) => {
     setIsLoading(true);
+    
     try {
       const response = await axios.get("/api/getmessages", {
         withCredentials: true,
       });
       setMessages(response.data.messages || []);
+      console.log("Fetched messages:", response.data.messages);
+
       if (refresh) {
         toast({
           title: "Refreshed messages",
@@ -175,7 +178,7 @@ const Page: React.FC = () => {
               {messages.length > 0 ? (
                 messages.map((message, index) => (
                   <MessageCard
-                    key={`${message._id}`}
+                    key={message._id}
                     message={message}
                     onMessageDelete={handleDeleteMessage}
                   />
