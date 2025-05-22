@@ -2,7 +2,6 @@ import React from 'react';
 import './CommunityPage.css';
 import Sidebar from '@/components/Sidebar';
 
-
 const Page: React.FC = () => {
   return (
       <div className="community-container">

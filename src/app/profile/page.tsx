@@ -185,22 +185,6 @@ const Page: React.FC = () => {
               )}
             </div>
 
-            <div className="orders">
-              <div className="order">
-                <h2>Order #1</h2>
-                <p>Details about this order go here.</p>
-                <a href="#" className="btn">
-                  View Order
-                </a>
-              </div>
-              <div className="order">
-                <h2>Order #2</h2>
-                <p>Details about this order go here.</p>
-                <a href="#" className="btn">
-                  View Order
-                </a>
-              </div>
-            </div>
           </main>
         </div>
       </div>
