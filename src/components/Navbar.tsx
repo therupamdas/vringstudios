@@ -4,6 +4,7 @@ import Image from 'next/image';
 import SignInCard from './SignInCard';
 import { useSession, signIn, signOut } from "next-auth/react"
 import { User } from '@/model/User';
+import { SidebarTrigger } from './ui/sidebar';
 
 const Navbar = () => {
 
@@ -51,6 +52,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
+      
       <div className="navbar-brand">VringStudios</div>
       <div className={`modal-overlay  ${isModalOpen ? 'wel1' : 'wel2'}`}>
         <div ref={modalRef} className="modal-content">

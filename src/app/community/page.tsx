@@ -6,6 +6,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Sidebar from "@/components/Sidebar";
 import "./CommunityPage.css";
 import { User } from "@/model/User";
+import { AppSidebar } from "@/components/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 const postSchema = z.object({
   message: z.string().min(5),
@@ -73,10 +75,17 @@ const Page: React.FC = () => {
   }, []);
 
   return (
+    <SidebarProvider>
+      <AppSidebar />
+      
     <div className="community-container">
-      <Sidebar />
+      {/* <Sidebar /> */}
+      
+      
       <div className="post-section">
+        
         <form className="postform" onSubmit={handleSubmit(onSubmit)}>
+          {/* <SidebarTrigger /> */}
           <div className="postform-header">Post a Request</div>
           <textarea
             placeholder="How can we help you?"
@@ -116,6 +125,7 @@ const Page: React.FC = () => {
         ))}
       </div>
     </div>
+    </SidebarProvider>
   );
 };
 

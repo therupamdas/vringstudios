@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Toaster } from "@/components/ui/toaster"
-
-import localFont from 'next/font/local'
+import { Toaster } from "@/components/ui/toaster";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
+import localFont from "next/font/local";
 import AuthProvidder from "@/context/AuthProvider";
 const myFont = localFont({
-  src: './fonts/NeueHaasDisplayBold.woff2'
-})
+  src: "./fonts/NeueHaasDisplayBold.woff2",
+});
 
 export const metadata: Metadata = {
   title: "Vring",
@@ -25,12 +26,12 @@ export default function RootLayout({
       <AuthProvidder>
         <body className="vsc-initialized">
           <Navbar />
+
           {children}
-          <Footer/>
+          <Footer />
+
           <Toaster />
-          
         </body>
-        
       </AuthProvidder>
     </html>
   );
