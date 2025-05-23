@@ -15,7 +15,9 @@
   flex-direction: column;
   gap: 20px;
 }
-
+.timestamp{
+  font-size: 0.8vw;
+}
 /* Post Card Styling */
 .post-card {
   background-color: #ffffff; /* White card background */

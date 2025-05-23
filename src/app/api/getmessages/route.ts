@@ -25,7 +25,7 @@ export async function GET(request: Request) {
   try {
     const userData = await UserModel.aggregate([
       { $match: { _id: userId } },
-      { $unwind: "$messages" },
+      { $unwind: { path: "$messages", preserveNullAndEmptyArrays: true } },
       { $sort: { "messages.createdAt": -1 } },
       {
         $group: {

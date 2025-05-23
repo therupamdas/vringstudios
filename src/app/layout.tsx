@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster"
 
 import localFont from 'next/font/local'
@@ -25,8 +26,11 @@ export default function RootLayout({
         <body className="vsc-initialized">
           <Navbar />
           {children}
+          <Footer/>
           <Toaster />
+          
         </body>
+        
       </AuthProvidder>
     </html>
   );

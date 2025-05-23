@@ -23,7 +23,7 @@ const ProfileCard: React.FC = async() => {
         />
       </div>
       <h2 className={styles.name}>{session?.user.username || "anonymous"}</h2>
-      <p className={styles.username}>{session?.user.email || "anonymous"}</p>
+      <p className={styles.username}>{session?.user._id || "anonymous"}</p>
       <hr className={styles.divider} />
       <ul className={styles.details}>
         <li>

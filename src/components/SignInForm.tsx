@@ -48,6 +48,7 @@ const SignInForm: React.FC = () => {
       });
     }
     if (result?.url) {
+      location.reload();
       router.replace("/");
     }
   };

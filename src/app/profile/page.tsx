@@ -172,7 +172,7 @@ const Page: React.FC = () => {
               <Button onClick={copyToClipboard}>Copy</Button>
             </div>
             <Separator className="my-6" />
-            <h1>Your Buying Orders</h1>
+            <h1>Accepted Orders</h1>
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
               {messages.length > 0 ? (
@@ -192,9 +192,7 @@ const Page: React.FC = () => {
         </div>
       </div>
 
-      <footer>
-        <p>&copy; 2024 Fiverr. All rights reserved.</p>
-      </footer>
+      
     </>
   );
 };
