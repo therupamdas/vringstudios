@@ -1,27 +1,28 @@
 .card {
-  margin-top: 1.5vw;
-  width: 30vw;
-  height: 35vw;
-  padding: 20px;
-  border: 1px solid #ddd;
+  margin-top: 1vw;
+  margin-right: 8vw;
+  width: 20vw;
+  height: 80vw;
+  padding: 1vw;
+  border: 0px solid #ddd;
   border-radius: 10px;
   background-color: #ffffff;
-  text-align: center;
+  text-align: left;
 }
 
 
 .avatarContainer {
-  width: 7vw;
-  height: 7vw;
-  margin: 0 auto;
-  border: 0.3vw solid #00c42e;
+  width: 20vw;
+  height: 20vw;
+  margin: 0 ;
+  margin-bottom: 2vw;
+  border: 0.15vw solid #00c42e;
   border-radius: 50%;
   overflow: hidden;
 }
 
 .avatar {
-  width: 7vw;
-  height: 7vw;
+  aspect-ratio: 1/1;
   border-radius: 50%;
 }
 

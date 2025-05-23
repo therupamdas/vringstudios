@@ -50,8 +50,8 @@ const Page: React.FC = () => {
       method: "POST",
       body: JSON.stringify({
         username: user?.username || "Guest",
-        image: "/Groupie.jpg",
-        // image: user?.image || "/Groupie.jpg",
+        image: "/defaultuser.png",
+        // image: user?.image || "/defaultuser.png",
         message: data.message,
         date: new Date().toISOString(),
       }),

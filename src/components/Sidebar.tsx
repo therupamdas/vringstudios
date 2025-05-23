@@ -1,10 +1,8 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import styles from "./ProfileCard.module.css";
 import { useEffect, useState } from "react";
 import { User } from "@/model/User";
-
 import './Sidebar.css';
 
 const Sidebar = () => {
@@ -33,7 +31,8 @@ const Sidebar = () => {
 
 
           <div className="user-box">
-            <img className="user-avatar"src={'/groupie.jpg'} alt="User Avatar" />
+            <Image className="user-avatar"src={user?.image || '/defaultuser.png'} priority={false} width={100}
+          height={100} alt="User Avatar" />
             <b className="user-name">{user?.username || "Please Login"}</b>
           </div>
         

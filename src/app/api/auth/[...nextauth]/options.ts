@@ -51,6 +51,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
+      
     }),
   ],
   callbacks: {
@@ -74,8 +75,10 @@ export const authOptions: NextAuthOptions = {
           dbUser = await UserModel.create({
             email: user.email,
             username,
-            password: "defaultsession",
+            password: "dummy",
             isverified: true,
+            phonenumber: "+91",
+            image: user.image || "",
             isAcceptingMessages: true,
             createdAt: new Date(),
             verifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
@@ -88,6 +91,7 @@ export const authOptions: NextAuthOptions = {
         token._id = dbUser._id?.toString();
         token.username = dbUser.username;
         token.isverified = dbUser.isverified;
+        token.image = dbUser.image;
         token.isAcceptingMessages = dbUser.isAcceptingMessages;
       }
 
@@ -96,6 +100,7 @@ export const authOptions: NextAuthOptions = {
         token._id = user._id?.toString();
         token.username = user.username;
         token.isverified = user.isverified;
+        token.image = user.image;
         token.isAcceptingMessages = user.isAcceptingMessages;
       }
 
@@ -109,6 +114,7 @@ export const authOptions: NextAuthOptions = {
           _id: token._id,
           username: token.username,
           isverified: token.isverified,
+          image: token.image,
           isAcceptingMessages: token.isAcceptingMessages,
         };
       }

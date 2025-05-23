@@ -1,37 +1,36 @@
-"use client";
-
 import Image from "next/image";
 import styles from "./ProfileCard.module.css";
-import { useEffect, useState } from "react";
 import { User } from "@/model/User";
+import { useEffect, useState } from "react";
 
-const Newprofile: React.FC = () => {
+const ProfileCard: React.FC = async () => {
   const [user, setUser] = useState<User | null>(null);
-
-  useEffect(() => {
-    async function fetchUser() {
-      const res = await fetch("/api/profile");
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      }
-    }
-    fetchUser();
-  }, []);
+    
+      useEffect(() => {
+        async function fetchUser() {
+          const res = await fetch("/api/profile");
+          if (res.ok) {
+            const data = await res.json();
+            setUser(data.user);
+          }
+        }
+        fetchUser();
+      }, []);
+  
 
   return (
     <div className={styles.card}>
       <div className={styles.avatarContainer}>
         <Image
-          className={styles.avatar}
+          className="user-avatar"
           src={user?.image || "/defaultuser.png"}
           alt="User Avatar"
-          width={1080}
-          height={1080}
+          width={100}
+          height={100}
         />
       </div>
-      <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
-      <p className={styles.username}>{user?.email || "anonymous"}</p>
+      {/* <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
+      <p className={styles.username}>{user?.username|| "anonymous"}</p> */}
       <hr className={styles.divider} />
       <ul className={styles.details}>
         <li>
@@ -49,4 +48,4 @@ const Newprofile: React.FC = () => {
   );
 };
 
-export default Newprofile;
+export default ProfileCard;

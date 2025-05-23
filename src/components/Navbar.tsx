@@ -3,10 +3,22 @@ import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import SignInCard from './SignInCard';
 import { useSession, signIn, signOut } from "next-auth/react"
-import {User} from 'next-auth'
+import { User } from '@/model/User';
 
 const Navbar = () => {
 
+  const [user, setUser] = useState<User | null>(null);
+    
+      useEffect(() => {
+        async function fetchUser() {
+          const res = await fetch("/api/profile");
+          if (res.ok) {
+            const data = await res.json();
+            setUser(data.user);
+          }
+        }
+        fetchUser();
+      }, []);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);
   const openModal = () => setIsModalOpen(true); // Opens the modal
@@ -35,7 +47,6 @@ const Navbar = () => {
 
 
   const { data: session } = useSession();
-  const user: User = session?.user as User
 
 
   return (
@@ -56,7 +67,7 @@ const Navbar = () => {
         }
         {session && (
           <div className="profilemenu">
-            <Image src={session.user.image || '/groupie.jpg'} alt="User Avatar" width={100} height={100} className="profilelogo" />
+            <Image src={user?.image || '/defaultuser.png'} alt="User Avatar" width={100} height={100} className="profilelogo" />
             <ul className="dropdown">
               <li><a href="/profile">Profile</a></li>
               <li><a href="/buying">Buying</a></li>
