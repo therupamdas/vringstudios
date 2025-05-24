@@ -17,6 +17,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     '/',
-    '/profile/:path*', // ✅ match all /profile routes
+    '/profile/:path*',
+    '/community' // ✅ match all /profile routes
   ],
 };

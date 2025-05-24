@@ -3,8 +3,8 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/AppSidebar";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+
 import localFont from "next/font/local";
 import AuthProvidder from "@/context/AuthProvider";
 const myFont = localFont({

@@ -8,6 +8,7 @@ import "./CommunityPage.css";
 import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import Image from "next/image";
 
 const postSchema = z.object({
   message: z.string().min(5),
@@ -52,8 +53,7 @@ const Page: React.FC = () => {
       method: "POST",
       body: JSON.stringify({
         username: user?.username || "Guest",
-        image: "/defaultuser.png",
-        // image: user?.image || "/defaultuser.png",
+        image: user?.image || "/defaultuser.png",
         message: data.message,
         date: new Date().toISOString(),
       }),
@@ -77,54 +77,60 @@ const Page: React.FC = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      
-    <div className="community-container">
-      {/* <Sidebar /> */}
-      
-      
-      <div className="post-section">
-        
-        <form className="postform" onSubmit={handleSubmit(onSubmit)}>
-          {/* <SidebarTrigger /> */}
-          <div className="postform-header">Post a Request</div>
-          <textarea
-            placeholder="How can we help you?"
-            className="postform-input"
-            {...register("message")}
-          />
-          {errors.message && (
-            <p className="error-text">Message must be at least 5 characters.</p>
-          )}
-          <button className="postform-button" type="submit">
-            Submit
-          </button>
-        </form>
 
-        {messages.map((msg) => (
-          <div key={msg._id} className="post-card">
-            <div className="user-info">
-              <img className="user-image" src={msg.image} alt="User" />
-              <div className="flex flex-col">
-                <p className="username">{msg.username}</p>
-                <p className="timestamp">
-                  {new Date(msg.date).toLocaleString(undefined, {
-                    dateStyle: "short",
-                    timeStyle: "short",
-                  })}
-                </p>
+      <div className="community-container">
+        {/* <Sidebar /> */}
+
+        <div className="post-section">
+          <form className="postform" onSubmit={handleSubmit(onSubmit)}>
+            {/* <SidebarTrigger /> */}
+            <div className="postform-header">Post a Request</div>
+            <textarea
+              placeholder="How can we help you?"
+              className="postform-input"
+              {...register("message")}
+            />
+            {errors.message && (
+              <p className="error-text">
+                Message must be at least 5 characters.
+              </p>
+            )}
+            <button className="postform-button" type="submit">
+              Submit
+            </button>
+          </form>
+
+          {messages.map((msg) => (
+            <div key={msg._id} className="post-card">
+              <div className="user-info">
+                <Image
+                  className="user-image"
+                  src={msg.image}
+                  height="100"
+                  width="100"
+                  alt="User"
+                />
+                <div className="flex flex-col">
+                  <p className="username">{msg.username}</p>
+                  <p className="timestamp">
+                    {new Date(msg.date).toLocaleString(undefined, {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
+                  </p>
+                </div>
+              </div>
+              <div className="user-request">
+                <p>{msg.message}</p>
+                <div className="action-buttons">
+                  <button className="btn accept-btn">Accept</button>
+                  <button className="btn decline-btn">Bargain</button>
+                </div>
               </div>
             </div>
-            <div className="user-request">
-              <p>{msg.message}</p>
-            </div>
-            <div className="action-buttons">
-              <button className="btn accept-btn">Accept</button>
-              <button className="btn decline-btn">Bargain</button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
     </SidebarProvider>
   );
 };

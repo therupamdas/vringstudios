@@ -70,6 +70,7 @@ export const authOptions: NextAuthOptions = {
         // If not exist, create user (auto-verified)
         if (!dbUser) {
           const expiryDate = new Date();
+          const since = expiryDate;
           expiryDate.setHours(expiryDate.getHours() + 1);
           const username = user.email?.split("@")[0]; // Or generate unique username as needed
           dbUser = await UserModel.create({
@@ -77,10 +78,10 @@ export const authOptions: NextAuthOptions = {
             username,
             password: "dummy",
             isverified: true,
-            phonenumber: "+91",
+            phonenumber: Math.floor(100000 + Math.random() * 900000).toString(),
             image: user.image || "",
             isAcceptingMessages: true,
-            createdAt: new Date(),
+            createdAt: since,
             verifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
             verifyCodeExpiry: expiryDate,
             messages: [],

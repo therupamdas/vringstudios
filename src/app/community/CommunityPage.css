@@ -36,9 +36,10 @@
 
 .user-info {
   display: flex;
-  align-items: center;
   gap: 10px;
+  height: 100%;
 }
+
 
 .user-image {
   width: 50px;
@@ -64,6 +65,7 @@
 
 /* Buttons */
 .action-buttons {
+  margin-top: 1vw;
   display: flex;
   gap: 10px;
 }

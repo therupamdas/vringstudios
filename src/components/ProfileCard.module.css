@@ -27,21 +27,22 @@
 }
 
 .name {
-  font-size: 1.5rem;
+  font-size: 2vw;
   font-weight: bold;
-  margin: 10px 0;
+  margin: 0;
 }
 
 .username {
   color: #555;
   font-size: 0.9rem;
-  margin-bottom: 10px;
+  margin: 0;
+  margin-bottom: 1vw;
 }
 
 .divider {
   margin: 10px 0;
   border: 0;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #dadada;
 }
 
 .details {
@@ -60,3 +61,7 @@
   color: #777;
   font-size: 0.9rem;
 }
+
+
+
+
