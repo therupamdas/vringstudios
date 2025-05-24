@@ -10,10 +10,26 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
 import axios from "axios";
+import { useEffect, useState } from "react";
+import { User } from "@/model/User";
+import { toast, useToast } from "./ui/use-toast";
+import { Toast } from "./ui/toast";
+import { useRouter } from "next/navigation";
 
 export function EditProfile() {
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const res = await fetch("/api/profile");
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+      }
+    }
+    fetchUser();
+  }, []);
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -24,7 +40,7 @@ export function EditProfile() {
     whatsappNumber: "",
     instagramId: "",
     linkedInId: "",
-    image: "", // or handle file separately
+    image: "",
     college: "",
     accountStatus: "active",
     role: "Client",
@@ -34,6 +50,34 @@ export function EditProfile() {
     state: "",
     bio: "",
   });
+
+  // Update formData when `user` is available
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        name: user.name || "",
+        username: user.username || "",
+        email: user.email || "",
+        password: user.password || "",
+        phonenumber: user.phonenumber || "",
+        language: user.language?.join(", ") || "",
+        whatsappNumber: user.whatsappNumber || "",
+        instagramId: user.instagramId || "",
+        linkedInId: user.linkedInId || "",
+        image: user.image || "",
+        college: user.college || "",
+        accountStatus: user.accountStatus || "active",
+        role: user.role || "Client",
+        dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleString() : "",
+        gender: user.gender || "Male",
+        city: user.city || "",
+        state: user.state || "",
+        bio: user.bio || "",
+      });
+    }
+  }, [user]);
+  const { toast } = useToast();
+  const router = useRouter();
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -45,7 +89,11 @@ export function EditProfile() {
   const handleSubmit = async () => {
     try {
       const res = await axios.put("/api/update", formData);
-      alert("Profile updated!");
+      toast({
+        title: "Changes Saved",
+        description: "Your info has been updated",
+      });
+      router.back();
     } catch (error) {
       console.error("Error updating profile", error);
     }
@@ -73,7 +121,12 @@ export function EditProfile() {
               <Label htmlFor="name" className="w-32 text-right text-sm">
                 Name
               </Label>
-              <Input id="name" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="name"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.name}
+                onChange={handleChange}
+              />
             </div>
 
             {/* Username */}
@@ -81,7 +134,12 @@ export function EditProfile() {
               <Label htmlFor="username" className="w-32 text-right text-sm">
                 Username
               </Label>
-              <Input id="username" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="username"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.username}
+                onChange={handleChange}
+              />
             </div>
 
             {/* Email */}
@@ -93,6 +151,8 @@ export function EditProfile() {
                 id="email"
                 type="email"
                 className="flex-1 h-8 text-sm px-2"
+                value={formData.email}
+                onChange={handleChange}
               />
             </div>
 
@@ -105,52 +165,79 @@ export function EditProfile() {
                 id="password"
                 type="password"
                 className="flex-1 h-8 text-sm px-2"
+                value={formData.password}
+                onChange={handleChange}
               />
             </div>
 
-            {/* Phone Number */}
+            {/* Phone */}
             <div className="flex items-center gap-2">
-              <Label htmlFor="phone" className="w-32 text-right text-sm">
+              <Label htmlFor="phonenumber" className="w-32 text-right text-sm">
                 Phone
               </Label>
               <Input
-                id="phone"
+                id="phonenumber"
                 type="tel"
                 className="flex-1 h-8 text-sm px-2"
+                value={formData.phonenumber}
+                onChange={handleChange}
               />
             </div>
+
             {/* Language */}
             <div className="flex items-center gap-2">
               <Label htmlFor="language" className="w-32 text-right text-sm">
                 Languages
               </Label>
-              <Input id="language" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="language"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.language}
+                onChange={handleChange}
+              />
             </div>
-            {/* WhatsApp Number */}
+
+            {/* WhatsApp */}
             <div className="flex items-center gap-2">
-              <Label htmlFor="whatsapp" className="w-32 text-right text-sm">
+              <Label
+                htmlFor="whatsappNumber"
+                className="w-32 text-right text-sm"
+              >
                 WhatsApp
               </Label>
               <Input
-                id="whatsapp"
+                id="whatsappNumber"
                 type="tel"
                 className="flex-1 h-8 text-sm px-2"
+                value={formData.whatsappNumber}
+                onChange={handleChange}
               />
             </div>
-            {/* Instagram ID */}
+
+            {/* Instagram */}
             <div className="flex items-center gap-2">
-              <Label htmlFor="insta" className="w-32 text-right text-sm">
+              <Label htmlFor="instagramId" className="w-32 text-right text-sm">
                 Instagram
               </Label>
-              <Input id="insta" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="instagramId"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.instagramId}
+                onChange={handleChange}
+              />
             </div>
 
-            {/* LinkedIn ID */}
+            {/* LinkedIn */}
             <div className="flex items-center gap-2">
-              <Label htmlFor="linkedin" className="w-32 text-right text-sm">
+              <Label htmlFor="linkedInId" className="w-32 text-right text-sm">
                 LinkedIn
               </Label>
-              <Input id="linkedin" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="linkedInId"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.linkedInId}
+                onChange={handleChange}
+              />
             </div>
           </div>
 
@@ -165,14 +252,21 @@ export function EditProfile() {
                 id="image"
                 type="file"
                 className="flex-1 text-sm file:mr-3 file:py-1 file:px-4 file:rounded-md file:border-0 file:bg-gray-100 file:text-sm file:text-gray-700 hover:file:bg-gray-200"
+                onChange={handleChange}
               />
             </div>
+
             {/* College */}
             <div className="flex items-center gap-2">
               <Label htmlFor="college" className="w-32 text-right text-sm">
                 College
               </Label>
-              <Input id="college" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="college"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.college}
+                onChange={handleChange}
+              />
             </div>
 
             {/* Account Status */}
@@ -185,7 +279,9 @@ export function EditProfile() {
               </Label>
               <select
                 id="accountStatus"
-                className="flex-1 h-8 text-sm px-2 border border-gray-300 rounded-md focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                className="flex-1 h-8 text-sm px-2 border border-gray-300 rounded-md"
+                value={formData.accountStatus}
+                onChange={handleChange}
               >
                 <option value="active">Active</option>
                 <option value="inactive">Inactive</option>
@@ -199,22 +295,26 @@ export function EditProfile() {
               </Label>
               <select
                 id="role"
-                className="flex-1 h-8 text-sm px-2 border border-gray-300  focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 rounded-md"
+                className="flex-1 h-8 text-sm px-2 border border-gray-300 rounded-md"
+                value={formData.role}
+                onChange={handleChange}
               >
                 <option value="Client">Client</option>
                 <option value="Editor">Editor</option>
               </select>
             </div>
 
-            {/* Date of Birth */}
+            {/* DOB */}
             <div className="flex items-center gap-2">
-              <Label htmlFor="dob" className="w-32 text-right text-sm">
+              <Label htmlFor="dateOfBirth" className="w-32 text-right text-sm">
                 DOB
               </Label>
               <Input
-                id="dob"
+                id="dateOfBirth"
                 type="date"
-                className="flex-1 h-8 text-sm px-2 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.dateOfBirth}
+                onChange={handleChange}
               />
             </div>
 
@@ -225,7 +325,9 @@ export function EditProfile() {
               </Label>
               <select
                 id="gender"
-                className="flex-1 h-8 text-sm px-2 border border-gray-300 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 rounded-md"
+                className="flex-1 h-8 text-sm px-2 border border-gray-300 rounded-md"
+                value={formData.gender}
+                onChange={handleChange}
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -239,7 +341,12 @@ export function EditProfile() {
               <Label htmlFor="city" className="w-32 text-right text-sm">
                 City
               </Label>
-              <Input id="city" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="city"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.city}
+                onChange={handleChange}
+              />
             </div>
 
             {/* State */}
@@ -247,8 +354,14 @@ export function EditProfile() {
               <Label htmlFor="state" className="w-32 text-right text-sm">
                 State
               </Label>
-              <Input id="state" className="flex-1 h-8 text-sm px-2" />
+              <Input
+                id="state"
+                className="flex-1 h-8 text-sm px-2"
+                value={formData.state}
+                onChange={handleChange}
+              />
             </div>
+
             {/* Bio */}
             <div className="flex items-start gap-2">
               <Label htmlFor="bio" className="w-32 text-right text-sm pt-1">
@@ -256,15 +369,19 @@ export function EditProfile() {
               </Label>
               <textarea
                 id="bio"
-                className="py-1 resize-none h-12 flex-1 text-sm px-2 border border-gray-300 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1 rounded-md "
+                className="py-1 resize-none h-12 flex-1 text-sm px-2 border border-gray-300 rounded-md"
                 rows={3}
+                value={formData.bio}
+                onChange={handleChange}
               ></textarea>
             </div>
           </div>
         </div>
 
         <DialogFooter>
-          <Button onClick={handleSubmit} type="submit">Save changes</Button>
+          <Button onClick={handleSubmit} type="submit">
+            Save changes
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

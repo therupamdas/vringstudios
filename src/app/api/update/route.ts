@@ -1,38 +1,33 @@
-// /pages/api/user/update.ts (Next.js API Route)
-import { NextApiRequest, NextApiResponse } from "next";
+// src/app/api/update/route.ts
+
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
-import { getSession } from "next-auth/react"; // If using NextAuth
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== "PUT") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
+export async function PUT(req: NextRequest) {
   try {
     await dbConnect();
 
-    // Optional: authenticate the user
-    const session = await getSession({ req });
-    if (!session) {
-      return res.status(401).json({ message: "Unauthorized" });
+    const body = await req.json();
+
+    const { email } = body;
+    if (!email) {
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    const { email } = req.body;
-
     const updatedUser = await UserModel.findOneAndUpdate(
-      { email }, // or user ID if you use sessions
-      { $set: { ...req.body } },
+      { email },
+      { $set: body },
       { new: true }
     );
 
     if (!updatedUser) {
-      return res.status(404).json({ message: "User not found" });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    res.status(200).json(updatedUser);
+    return NextResponse.json(updatedUser);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

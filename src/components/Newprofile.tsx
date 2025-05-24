@@ -20,7 +20,6 @@ const Newprofile: React.FC = () => {
     fetchUser();
   }, []);
 
-  console.log("User createdAt raw:", user?.createdAt);
   const dateuser = user?.createdAt
     ? new Date(user.createdAt).toLocaleDateString(undefined, {
         year: "numeric",
@@ -41,18 +40,21 @@ const Newprofile: React.FC = () => {
       </div>
       <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
       <p className={styles.username}>{user?.email || "anonymous"}</p>
-      <p className={styles.workingHours}>#Bio Goes Here....</p>
-      
+      <p className={styles.workingHours}>{user?.bio || "#Bio Goes Here...."}</p>
+
       <hr className={styles.divider} />
       <EditProfile />
       <ul className="text-sm text-gray-800 space-y-3 mt-4">
         {[
-          ["fas fa-building", "NIT Rourkela"],
-          ["fas fa-map-marker-alt", "Kolkata, West Bengal"],
+          ["fas fa-building", user?.college || "College"],
+          [
+            "fas fa-map-marker-alt",
+            user?.city + ", " + user?.state || "Location",
+          ],
           [
             "fas fa-link",
             <a
-              href=""
+              href={"#"}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
@@ -63,15 +65,25 @@ const Newprofile: React.FC = () => {
           [
             "fab fa-linkedin",
             <a
-              href="https://linkedin.com/"
+              href={user?.linkedInId || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
             >
-              Rupam Das
+              {"LinkedIn"}
             </a>,
           ],
-          ["fab fa-instagram", "fiwithrupamm"],
+          [
+            "fab fa-linkedin",
+            <a
+              href={user?.instagramId  || "Instagram"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:underline"
+            >
+              {"Instagram"}
+            </a>,
+          ],
           ["fas fa-map-pin", "Located in India"],
           [
             "fas fa-user",
@@ -79,7 +91,7 @@ const Newprofile: React.FC = () => {
               Since <span>{dateuser}</span>
             </>,
           ],
-          ["fas fa-language", "English"],
+          ["fas fa-language", user?.language || "English"],
         ].map(([icon, text], i) => (
           <li className="flex items-start gap-3" key={i}>
             <i

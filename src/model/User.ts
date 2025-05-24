@@ -118,6 +118,7 @@ const UserSchema: Schema<User> = new Schema({
   language: {
     type: [String], // Array of strings
     required: false,
+    default: ["English", "Hindi"],
   },
   accountStatus: {
     type: String,
