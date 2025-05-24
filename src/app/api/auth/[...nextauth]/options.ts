@@ -51,7 +51,6 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_ID as string,
       clientSecret: process.env.GOOGLE_SECRET as string,
-      
     }),
   ],
   callbacks: {
@@ -85,6 +84,19 @@ export const authOptions: NextAuthOptions = {
             verifyCode: Math.floor(100000 + Math.random() * 900000).toString(),
             verifyCodeExpiry: expiryDate,
             messages: [],
+            name: user.name || "",
+            instagramId: "",
+            linkedInId: "",
+            college: "",
+            language: [], // Array of strings
+            accountStatus: "active", // or "inactive"
+            role: "Client", // or "Editor"
+            dateOfBirth: null,
+            gender: "Prefer not to say",
+            bio: "",
+            whatsappNumber: "",
+            city: "",
+            state: "",
           });
         }
 

@@ -49,7 +49,10 @@ const items = [
 export function AppSidebar() {
   return (
     <Sidebar className="nesidebar fwhite">
-      <SidebarHeader>
+      <SidebarHeader className="sidebar-brand">
+        VringStudios
+      </SidebarHeader>
+      <SidebarContent >
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
@@ -62,24 +65,10 @@ export function AppSidebar() {
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton>
-                Select Workspace
-                <ChevronDown className="ml-auto" />
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[--radix-popper-anchor-width]">
-              <DropdownMenuItem>
-                <span>Acme Inc</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <span>Acme Corp.</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-      </SidebarHeader>
-      <UserFoot />
+      </SidebarContent>
+      <SidebarFooter>
+        <UserFoot />
+      </SidebarFooter>
     </Sidebar>
   );
 }

@@ -1,8 +1,12 @@
 .nesidebar {
-  position: relative;
   padding: 0.5vw;
   border: 1px solid #f3f3f3;
 }
 .fwhite{
   background-color: #f9f9f9;
+}
+.sidebar-brand{
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #16a34a;
 }
