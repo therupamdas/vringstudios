@@ -1,20 +1,21 @@
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface Message extends Document {
+  username: string;
   content: string;
-  createdAt: Date;
+  date: string;
+  image: string;
+  budget: string,
 }
 const MessageSchema: Schema<Message> = new Schema({
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: () => new Date(), // Use a function to ensure consistent timestamps
-    required: true,
-  },
+  username: { type: String, required: true },
+  content: { type: String, required: true },
+  date: { type: String, required: true }, // or Date if it's a date
+  image: { type: String, required: true },
+  budget: { type: String, required: true },
+  
 });
+
 export interface User extends Document {
   username: string;
   name: string;
@@ -162,7 +163,6 @@ const UserSchema: Schema<User> = new Schema({
     trim: true,
   },
 });
-
 
 const UserModel =
   (mongoose.models.User as mongoose.Model<User>) ||

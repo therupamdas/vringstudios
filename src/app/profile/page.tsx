@@ -37,7 +37,6 @@ const Page: React.FC = () => {
   });
 
   const { register, watch, setValue } = form;
-
   const acceptMessages = watch("acceptMessages");
 
   const fetchAcceptMessages = useCallback(async () => {
@@ -62,7 +61,7 @@ const Page: React.FC = () => {
 
   const fetchMessages = useCallback(async (refresh = false) => {
     setIsLoading(true);
-    
+
     try {
       const response = await axios.get("/api/getmessages", {
         withCredentials: true,
@@ -135,7 +134,7 @@ const Page: React.FC = () => {
   };
 
   if (!session || !session.user) {
-    return <div>Please log in first.</div>;
+    return <div>Loading...</div>;
   }
 
   return (
@@ -177,7 +176,7 @@ const Page: React.FC = () => {
               {messages.length > 0 ? (
                 messages.map((message, index) => (
                   <MessageCard
-                    key={message._id}
+                    key={message?.id}
                     message={message}
                     onMessageDelete={handleDeleteMessage}
                   />
@@ -186,12 +185,9 @@ const Page: React.FC = () => {
                 <p>No messages to display.</p>
               )}
             </div>
-
           </main>
         </div>
       </div>
-
-      
     </>
   );
 };

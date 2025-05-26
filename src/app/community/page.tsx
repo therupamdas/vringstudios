@@ -9,6 +9,7 @@ import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import Image from "next/image";
+import { Input } from "@/components/ui/input";
 
 const postSchema = z.object({
   message: z.string().min(5),
@@ -87,12 +88,12 @@ const Page: React.FC = () => {
             <div className="postform-header">Post a Request</div>
             <textarea
               placeholder="How can we help you?"
-              className="postform-input"
+              className="postform-input mb-1"
               {...register("message")}
             />
             {errors.message && (
-              <p className="error-text">
-                Message must be at least 5 characters.
+              <p className="error-text mb-1 text-red-500 ">
+                Message must be at least 10 Words
               </p>
             )}
             <button className="postform-button" type="submit">
@@ -124,7 +125,18 @@ const Page: React.FC = () => {
                 <p>{msg.message}</p>
                 <div className="action-buttons">
                   <button className="btn accept-btn">Accept</button>
-                  <button className="btn decline-btn">Bargain</button>
+                  <div className=" flex flex-row">
+                    <button className="btn flex flex-row gap-2 items-center decline-btn">
+                      Negotiate
+                    </button>
+                    <Input
+                      className="negmount h-10 text-base w-25"
+                      placeholder="Amount"
+                    />
+                  </div>
+                </div>
+                <div className="action-buttons">
+                  <button className="btn bg-yellow-400">Taken</button>
                 </div>
               </div>
             </div>

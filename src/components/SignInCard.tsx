@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -10,7 +9,7 @@ const SignInCard: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(true);
   const { data: session } = useSession();
 
-  return (
+  return ( 
     <div className="container">
       <div className="cardleft"></div>
       <div className="card">
@@ -34,7 +33,6 @@ const SignInCard: React.FC = () => {
           {isSignUp ? <SignUpForm /> : <SignInForm />}
 
           <div className="border-t border-gray-400 my-1" />
-
           {!session && (
             <button
               onClick={() => signIn("google")}

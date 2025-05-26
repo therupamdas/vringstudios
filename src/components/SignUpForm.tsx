@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./SignInCard.css";
+import "./SignInCard.css"
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,7 +27,7 @@ const SignUpForm: React.FC = () => {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const debounced = useDebounceCallback(setUsername, 300);
+  const debounced = useDebounceCallback(setUsername, 200);
   const { toast } = useToast();
   const router = useRouter();
 
@@ -97,6 +97,7 @@ const SignUpForm: React.FC = () => {
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input
+                
                   placeholder="username"
                   {...field}
                   onChange={(e) => {

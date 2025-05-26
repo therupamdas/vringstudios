@@ -40,7 +40,9 @@
   height: 100%;
 }
 
-
+.negmount{
+ border-radius: 0 5px 5px 0;
+}
 .user-image {
   width: 50px;
   height: 50px;
@@ -89,12 +91,21 @@
 }
 
 .decline-btn {
+  border-radius: 5px 0  0 5px;
   background-color: #f34254; /* Red */
 }
 
 .decline-btn:hover {
   background-color: #c82333;
 }
+/* .decline-btn {
+  background-color: #e7c800; 
+}
+
+.decline-btn:hover {
+  background-color: #ffa70f;
+} */
+
 
 /* Container for Post Form */
 .postform {
@@ -119,7 +130,7 @@
 
 /* Textarea Styling */
 .postform-input {
-  height: 8vw;
+  height: 12vw;
   width: 64vw;
   padding-left: 1vw;
   padding-top: 1vw;
@@ -131,14 +142,9 @@
   border: none;
   outline: none;
   resize: none;
-  margin-bottom: 1vw;
   transition: all 0.3s ease;
 }
 
-.postform-input:hover,
-.postform-input:focus {
-  height: 16vw;
-}
 
 /* Submit Button Styling */
 .postform-button {

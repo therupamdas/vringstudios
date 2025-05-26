@@ -5,6 +5,7 @@ const OrderSchema = new mongoose.Schema({
   message: String,
   date: String,
   image: String,
+  budget: String,
 });
 
 const OrderModel = mongoose.models.Order || mongoose.model("Order", OrderSchema);

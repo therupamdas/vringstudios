@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
-import "./SignInCard.css";
+import "./SignInCard.css"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";

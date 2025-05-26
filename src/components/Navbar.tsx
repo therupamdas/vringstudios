@@ -56,9 +56,8 @@ const Navbar = () => {
             <DialogTrigger id="litgreen" className=" register ">
               Register
             </DialogTrigger>
-            <DialogContent>
+            <DialogContent className="w-2 ">
               <SignInCard />
-              
             </DialogContent>
           </Dialog>
         )}
