@@ -5,7 +5,6 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
 import { useForm } from "react-hook-form";
-import { signUpSchema } from "@/schemas/signUpSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { verifySchema } from "@/schemas/verifySchema";
@@ -14,7 +13,6 @@ import { apiResponse } from "@/types/apiResponse";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -47,7 +45,7 @@ const VerifyAccount = () => {
     } catch (error) {
       console.error("Error in signup of user", error);
       const axiosError = error as AxiosError<apiResponse>;
-      let errorMessage = axiosError.response?.data.message;
+      const errorMessage = axiosError.response?.data.message;
       toast({
         title: "Sign up failed",
         description: errorMessage,

@@ -5,14 +5,12 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 
 import "./CommunityPage.css";
-import OrderModel from "@/model/Order";
 
 const postSchema = z.object({
   message: z.string().min(10),
@@ -83,7 +81,6 @@ const Page: React.FC = () => {
       fetchMessages();
     }
   };
-  const router = useRouter();
   const sendOrder = async (msg: Message) => {
     const ress = await fetch("/api/takeorders", {
       method: "POST",
@@ -96,6 +93,7 @@ const Page: React.FC = () => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date: msg.date }),
     });
+    console.log(response)
     reset();
     fetchMessages();
 

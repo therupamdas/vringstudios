@@ -50,7 +50,7 @@ export function EditProfile() {
     state: "",
     bio: "",
   });
-
+  const { toast } = useToast();
   // Update formData when `user` is available
   useEffect(() => {
     if (user) {
@@ -78,7 +78,7 @@ export function EditProfile() {
       });
     }
   }, [user]);
-  const { toast } = useToast();
+
   const router = useRouter();
   const handleChange = (
     e: React.ChangeEvent<
@@ -97,6 +97,7 @@ export function EditProfile() {
         updatedFormData.password = hashedPassword;
       }
       const res = await axios.put("/api/update", updatedFormData);
+      console.log(res);
       toast({
         title: "Changes Saved",
         description: "Your info has been updated",
@@ -118,7 +119,7 @@ export function EditProfile() {
         <DialogHeader>
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when you're done.
+            Make changes to your profile here. Click save when youre done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid grid-cols-2 gap-4 py-4">

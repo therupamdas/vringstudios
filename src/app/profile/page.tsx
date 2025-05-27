@@ -1,6 +1,5 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 import "./profilepage.css";
 import Newprofile from "@/components/Newprofile";
 import { Message } from "@/model/User";
@@ -15,7 +14,6 @@ import { User } from "next-auth";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Card } from "@/components/ui/card";
 import { MessageCard } from "@/components/MessageCard";
 
 const Page: React.FC = () => {
@@ -23,7 +21,7 @@ const Page: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [profileUrl, setProfileUrl] = useState("");
-
+  console.log(isLoading)
   const { toast } = useToast();
 
   const handleDeleteMessage = (messageId: string) => {
@@ -174,7 +172,7 @@ const Page: React.FC = () => {
 
             <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
               {messages.length > 0 ? (
-                messages.map((message, index) => (
+                messages.map((message) => (
                   <MessageCard
                     key={message?.id}
                     message={message}

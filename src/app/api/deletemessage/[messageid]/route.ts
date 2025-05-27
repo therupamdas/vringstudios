@@ -13,8 +13,7 @@ export async function DELETE(
   await dbConnect();
   const session = await getServerSession(authOptions);
   const user: User = session?.user as User;
-  console.log(user);
-  console.log(messageId);
+  console.log(request)
 
   if (!session || !user) {
     return Response.json(

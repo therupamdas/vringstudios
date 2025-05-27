@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
-
 export default function Home() {
   return (
     <div>
@@ -21,36 +20,32 @@ export default function Home() {
           <button className="hero-button">Search</button>
         </div>
       </section>
-      {/* Extended Homepage Sections */}
+
       <div className="flex flex-row justify-center items-stretch gap-6 mt-10 px-4 flex-wrap">
-        {/* What's New Card */}
         <Card className="w-full max-w-md shadow-md">
           <CardHeader>
-            <CardTitle>✨ What's New</CardTitle>
+            <CardTitle>✨ Whats New</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 mb-2">
-              Check out the latest updates and features we've added this week!
+              Check out the latest updates and features we have added this week!
             </p>
             <Button>View Updates</Button>
           </CardContent>
         </Card>
 
-        {/* Invite Friends */}
         <Card className="w-full max-w-md shadow-md">
           <CardHeader>
             <CardTitle>🎉 Invite Friends</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 mb-2">
-              Share the magic of VringStudios with your friends and earn
-              rewards.
+              Share the magic of VringStudios with your friends and earn rewards.
             </p>
             <Button variant="secondary">Generate Invite Link</Button>
           </CardContent>
         </Card>
 
-        {/* Get in Touch */}
         <Card className="w-full max-w-md shadow-md">
           <CardHeader>
             <CardTitle>📬 Contact Us</CardTitle>
