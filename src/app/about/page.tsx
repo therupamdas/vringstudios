@@ -72,7 +72,7 @@ export default function Page() {
       <section className="text-center">
         <h2 className="text-2xl font-semibold mb-4">Join Our Journey</h2>
         <p className="mb-6 text-gray-700 max-w-md mx-auto">
-          Whether you're a creator, collaborator, or enthusiast, VringStudios welcomes you. Lets build something amazing together.
+          Whether youre a creator, collaborator, or enthusiast, VringStudios welcomes you. Lets build something amazing together.
         </p>
         <Button size="lg">Get In Touch</Button>
       </section>

@@ -5,6 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
+import { User } from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -15,12 +16,16 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any): Promise<any> {
+      async authorize(
+        credentials: Record<string, string> | undefined,
+        req
+      ): Promise<User | null> {
         await dbConnect();
         try {
-            console.log("Credentials", credentials);
-;
-
+          if (!credentials?.identifier || !credentials.password) {
+            return null;
+          }
+          console.log("Credentials", credentials);
           // Accept email or username in 'identifier' property for login
           const user = await UserModel.findOne({
             $or: [
@@ -28,7 +33,7 @@ export const authOptions: NextAuthOptions = {
               { username: credentials.identifier },
             ],
           });
-          console.log("User found", user)
+          console.log("User found", user);
           if (!user) {
             throw new Error("No user with this Email or Username");
           }
@@ -36,21 +41,20 @@ export const authOptions: NextAuthOptions = {
             throw new Error("Please verify your email before logging in");
           }
           const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
+            credentials?.password,
             user.password
           );
           if (!isPasswordCorrect) {
             throw new Error("Incorrect password");
           }
-          
 
           return {
-            id: user._id,
-            name: user.username,
-            email: user.email,
-          };
-        } catch (err: any) {
-          throw new Error(err.message || "Login failed");
+        id: String(user._id),
+        name: user.username,
+        email: user.email,
+      };
+        } catch (err) {
+          throw new Error("Login failed");
         }
       },
     }),
