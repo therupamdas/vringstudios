@@ -13,9 +13,9 @@ import { Label } from "@/components/ui/label";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { User } from "@/model/User";
-import { toast, useToast } from "./ui/use-toast";
-import { Toast } from "./ui/toast";
+import { useToast } from "./ui/use-toast";
 import { useRouter } from "next/navigation";
+import bcrypt from "bcryptjs";
 
 export function EditProfile() {
   const [user, setUser] = useState<User | null>(null);
@@ -68,7 +68,9 @@ export function EditProfile() {
         college: user.college || "",
         accountStatus: user.accountStatus || "active",
         role: user.role || "Client",
-        dateOfBirth: user.dateOfBirth ? new Date(user.dateOfBirth).toLocaleString() : "",
+        dateOfBirth: user.dateOfBirth
+          ? new Date(user.dateOfBirth).toLocaleString()
+          : "",
         gender: user.gender || "Male",
         city: user.city || "",
         state: user.state || "",
@@ -88,7 +90,13 @@ export function EditProfile() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.put("/api/update", formData);
+      let updatedFormData = { ...formData };
+      // Only hash password if it's changed from the original (optional optimization)
+      if (formData.password && formData.password !== user?.password) {
+        const hashedPassword = await bcrypt.hash(formData.password, 10);
+        updatedFormData.password = hashedPassword;
+      }
+      const res = await axios.put("/api/update", updatedFormData);
       toast({
         title: "Changes Saved",
         description: "Your info has been updated",

@@ -18,6 +18,9 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials: any): Promise<any> {
         await dbConnect();
         try {
+            console.log("Credentials", credentials);
+;
+
           // Accept email or username in 'identifier' property for login
           const user = await UserModel.findOne({
             $or: [
@@ -25,6 +28,7 @@ export const authOptions: NextAuthOptions = {
               { username: credentials.identifier },
             ],
           });
+          console.log("User found", user)
           if (!user) {
             throw new Error("No user with this Email or Username");
           }
@@ -38,7 +42,13 @@ export const authOptions: NextAuthOptions = {
           if (!isPasswordCorrect) {
             throw new Error("Incorrect password");
           }
-          return user;
+          
+
+          return {
+            id: user._id,
+            name: user.username,
+            email: user.email,
+          };
         } catch (err: any) {
           throw new Error(err.message || "Login failed");
         }
@@ -75,7 +85,7 @@ export const authOptions: NextAuthOptions = {
           dbUser = await UserModel.create({
             email: user.email,
             username,
-            password: "dummy",
+            password: await bcrypt.hash("dummy", 10),
             isverified: true,
             phonenumber: Math.floor(100000 + Math.random() * 900000).toString(),
             image: user.image || "",
