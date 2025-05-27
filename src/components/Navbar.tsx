@@ -64,7 +64,7 @@ const Navbar = () => {
                   alt="User Avatar"
                   width={100}
                   height={100}
-                  className="profilelogo"
+                  className="profilelogo w-7 h-7"
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent>
