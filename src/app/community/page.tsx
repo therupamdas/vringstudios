@@ -113,14 +113,14 @@ const router = useRouter();
     <SidebarProvider>
       <AppSidebar />
 
-      <div className="community-container">
-        <div className="post-section">
-          <form className="postform" onSubmit={handleSubmit(onSubmit)}>
-            <div className="postform-header">Post a Request</div>
+      {/* <div className="community-container"> */}
+        <div className="post-section w-full">
+          <form className="postform  w-full" onSubmit={handleSubmit(onSubmit)}>
+            <div className="postform-header  w-full">Post a Request</div>
 
             <textarea
               placeholder="Write Your Order"
-              className="postform-input mb-2 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
+              className="postform-input mb-2 w-full  focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
               {...register("message")}
             />
 
@@ -183,7 +183,7 @@ const router = useRouter();
                     <div className="flex flex-row gap-0 items-center">
                       <button className="btn h-10 decline-btn">Negotiate</button>
                       <Input
-                        className="negmount h-10 text-base w-25"
+                        className="negmount h-10 text-base"
                         placeholder="Amount"
                       />
                     </div>
@@ -197,7 +197,7 @@ const router = useRouter();
             </div>
           ))}
         </div>
-      </div>
+      {/* </div> */}
     </SidebarProvider>
   );
 };

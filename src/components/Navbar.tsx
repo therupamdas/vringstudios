@@ -12,11 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
 
 const Navbar = () => {
@@ -56,7 +52,7 @@ const Navbar = () => {
             <DialogTrigger id="litgreen" className=" register ">
               Register
             </DialogTrigger>
-            <DialogContent className="w-2 ">
+            <DialogContent className="w-96 rounded-lg">
               <SignInCard />
             </DialogContent>
           </Dialog>
@@ -76,7 +72,7 @@ const Navbar = () => {
               <DropdownMenuContent>
                 {/* <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator /> */}
-                <DropdownMenuItem  onClick={handleClick}>
+                <DropdownMenuItem onClick={handleClick}>
                   Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => signOut()}>

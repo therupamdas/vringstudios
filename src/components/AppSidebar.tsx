@@ -8,14 +8,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import "./Sidebar.css";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { ChevronDown } from "lucide-react";
 import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
 import UserFoot from "@/components/UserFoot";
 const items = [
@@ -46,10 +38,11 @@ const items = [
   },
 ];
 
+
 export function AppSidebar() {
   return (
-    <Sidebar className="nesidebar fwhite">
-      <SidebarHeader className="sidebar-brand">
+    <Sidebar className="p-3 border border-[#f3f3f3] bg-[#f9f9f9]">
+      <SidebarHeader className="text-3xl font-bold text-green-600">
         VringStudios
       </SidebarHeader>
       <SidebarContent >

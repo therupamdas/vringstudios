@@ -213,7 +213,6 @@ footer {
 .hero-input:hover {
   width: 18rem;
 }
-
 .typing {
   white-space: nowrap;
   overflow: hidden;
@@ -241,48 +240,12 @@ footer {
   cursor: pointer;
   transition: all ease 0.2s;
 }
-
 .hero-button:hover {
   background-color: #c6ffa9;
   color: #005301;
 }
-
-
-
-/* General modal overlay styles */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(55, 55, 55, 0.5); /* Equivalent to bg-gray-900 + bg-opacity-50 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all ease 0.15s;
-  opacity: 1;
-}
-.wel1 {
-  opacity: 1;
-  visibility: visible;
-}
-
-.wel2 {
-  opacity: 0;
-  visibility: hidden;
-}
 .vsc-initialized {
   all: unset; /* Resets all styles applied by the class */
-}
-
-.modal-content {
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 24px;
-  width: 40vw;
-  transform: scale(1);
 }
 @layer base {
   :root {
