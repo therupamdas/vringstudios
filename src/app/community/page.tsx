@@ -83,7 +83,7 @@ const Page: React.FC = () => {
       fetchMessages();
     }
   };
-const router = useRouter();
+  const router = useRouter();
   const sendOrder = async (msg: Message) => {
     const ress = await fetch("/api/takeorders", {
       method: "POST",
@@ -96,7 +96,8 @@ const router = useRouter();
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ date: msg.date }),
     });
-    router.replace("/profile")
+    reset();
+    fetchMessages();
 
     try {
       const data = await ress.json();
@@ -143,7 +144,7 @@ const router = useRouter();
           </form>
 
           {messages.map((msg) => (
-            <div key={msg.date} className="post-card">
+            <div key={msg.date} className={!msg.istaken? "post-card-white":"post-card-yellow"}>
               <div className="user-info">
                 <Image
                   className="user-image"
@@ -154,7 +155,7 @@ const router = useRouter();
                 />
                 <div className="flex flex-col">
                   <p className="username">{msg.username}</p>
-                  <p className="timestamp">
+                  <p className="timestamp font-arial">
                     {new Date(msg.date)
                       .toLocaleString("en-GB", {
                         day: "2-digit",
@@ -174,6 +175,11 @@ const router = useRouter();
                 {!msg.istaken ? (
                   <div className="action-buttons">
                     <button
+                      className="budget"
+                    >
+                      {msg.budget}/-
+                    </button>
+                    <button
                       className="btn accept-btn"
                       onClick={() => sendOrder(msg)}
                     >
@@ -190,7 +196,7 @@ const router = useRouter();
                   </div>
                 ) : (
                   <div className="action-buttons">
-                    <button className="btn bg-yellow-400">Taken</button>
+                    <button className="btn bg-yellow-500 w-full">Taken</button>
                   </div>
                 )}
               </div>

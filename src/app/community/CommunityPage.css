@@ -252,8 +252,18 @@ footer {
   gap: 20px;
 }
 
-.post-card {
+.post-card-white {
   background-color: #ffffff;
+  border-radius: 10px;
+  padding: 1vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+.post-card-yellow {
+  background-color: #facc15;
   border-radius: 10px;
   padding: 1vw;
   display: flex;
@@ -291,6 +301,15 @@ footer {
   color: #fff;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+.budget {
+  border: solid 1px black;
+  padding: 8px 15px;
+  border-radius: 5px;
+  color: #282828;
+  font-weight: bold;
+  cursor: none;
   transition: all 0.3s ease;
 }
 
