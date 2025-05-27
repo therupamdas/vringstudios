@@ -90,7 +90,7 @@ export function EditProfile() {
 
   const handleSubmit = async () => {
     try {
-      let updatedFormData = { ...formData };
+      const updatedFormData = { ...formData };
       // Only hash password if it's changed from the original (optional optimization)
       if (formData.password && formData.password !== user?.password) {
         const hashedPassword = await bcrypt.hash(formData.password, 10);

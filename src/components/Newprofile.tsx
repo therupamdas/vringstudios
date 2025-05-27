@@ -36,7 +36,7 @@ const Newprofile: React.FC = () => {
           alt="User Avatar"
           width={1080}
           height={1080}
-        /> 
+        />
       </div>
       <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
       <p className={styles.username}>{user?.email || "anonymous"}</p>
@@ -46,14 +46,11 @@ const Newprofile: React.FC = () => {
       <ul className="text-sm text-gray-800 space-y-3 mt-4">
         {[
           ["fas fa-building", user?.college || "College"],
-          [
-            "fas fa-map-marker-alt",
-            user?.city + ", " + user?.state || "Location",
-          ],
+          ["fas fa-map-marker-alt", user?.city + ", " + user?.state || "Location"],
           [
             "fas fa-link",
             <a
-              href={"#"}
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
@@ -69,18 +66,18 @@ const Newprofile: React.FC = () => {
               rel="noopener noreferrer"
               className="hover:underline"
             >
-              {"LinkedIn"}
+              LinkedIn
             </a>,
           ],
           [
             "fab fa-linkedin",
             <a
-              href={user?.instagramId  || "Instagram"}
+              href={user?.instagramId || "#"}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
             >
-              {"Instagram"}
+              Instagram
             </a>,
           ],
           ["fas fa-map-pin", "Located in India"],
@@ -91,11 +88,9 @@ const Newprofile: React.FC = () => {
             </>,
           ],
           ["fas fa-language", user?.language || "English"],
-        ].map(([icon, text], i) => (
-          <li className="flex items-start gap-3" key={`${icon}-${typeof text === "string" ? text : ""}`}>
-            <i
-              className={`${icon} text-gray-500 min-w-[20px] text-base pt-1`}
-            ></i>
+        ].map(([icon, text], index) => (
+          <li className="flex items-start gap-3" key={`${icon}-${index}`}>
+            <i className={`${icon} text-gray-500 min-w-[20px] text-base pt-1`}></i>
             <span className="leading-snug">{text}</span>
           </li>
         ))}

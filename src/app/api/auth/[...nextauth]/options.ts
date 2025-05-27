@@ -21,6 +21,7 @@ export const authOptions: NextAuthOptions = {
         req
       ): Promise<User | null> {
         await dbConnect();
+        console.log(req)
         try {
           if (!credentials?.identifier || !credentials.password) {
             return null;
@@ -55,6 +56,7 @@ export const authOptions: NextAuthOptions = {
       };
         } catch (err) {
           throw new Error("Login failed");
+          console.log(err)
         }
       },
     }),
