@@ -4,6 +4,7 @@ import { useSession, signIn } from "next-auth/react";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 import "./SignInCard.css";
+import Image from "next/image";
 const SignInCard: React.FC = () => {
   const [isSignUp, setIsSignUp] = useState(true);
   const { data: session } = useSession();
@@ -32,11 +33,7 @@ const SignInCard: React.FC = () => {
         <div className="border-t border-gray-400 my-1" />
         {!session && (
           <button onClick={() => signIn("google")} className="button h-10 px-4 py-2 google">
-            <img
-              src="https://www.svgrepo.com/show/355037/google.svg"
-              alt="Google Icon"
-              className="icon"
-            />
+            <Image src="https://www.svgrepo.com/show/355037/google.svg" className="icon" alt="Logo" width={100} height={100} />
             Sign in with Google
           </button>
         )}

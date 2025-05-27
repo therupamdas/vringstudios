@@ -36,7 +36,7 @@ const Newprofile: React.FC = () => {
           alt="User Avatar"
           width={1080}
           height={1080}
-        />
+        /> 
       </div>
       <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
       <p className={styles.username}>{user?.email || "anonymous"}</p>
@@ -92,7 +92,7 @@ const Newprofile: React.FC = () => {
           ],
           ["fas fa-language", user?.language || "English"],
         ].map(([icon, text], i) => (
-          <li className="flex items-start gap-3" key={i}>
+          <li className="flex items-start gap-3" key={`${icon}-${typeof text === "string" ? text : ""}`}>
             <i
               className={`${icon} text-gray-500 min-w-[20px] text-base pt-1`}
             ></i>
