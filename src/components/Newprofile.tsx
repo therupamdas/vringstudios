@@ -26,7 +26,75 @@ const Newprofile: React.FC = () => {
         month: "long",
       })
     : "N/A";
-
+  const infoItems = [
+    {
+      icon: "fas fa-building",
+      content: user?.college || "College",
+    },
+    {
+      icon: "fas fa-map-marker-alt",
+      content:
+        user?.city && user?.state ? `${user.city}, ${user.state}` : "Location",
+    },
+    {
+      icon: "fas fa-link",
+      content: (
+        <a
+          href="#"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+          key="portfolio-link" // added key here
+        >
+          Portfolio Videos Link
+        </a>
+      ),
+    },
+    {
+      icon: "fab fa-linkedin",
+      content: (
+        <a
+          href={user?.linkedInId || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+          key="linkedin-link"
+        >
+          LinkedIn
+        </a>
+      ),
+    },
+    {
+      icon: "fab fa-instagram",
+      content: (
+        <a
+          href={user?.instagramId || "#"}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hover:underline"
+          key="instagram-link"
+        >
+          Instagram
+        </a>
+      ),
+    },
+    {
+      icon: "fas fa-map-pin",
+      content: "Located in India",
+    },
+    {
+      icon: "fas fa-user",
+      content: (
+        <span key="since-date">
+          Since <span>{dateuser}</span>
+        </span>
+      ),
+    },
+    {
+      icon: "fas fa-language",
+      content: user?.language || "English",
+    },
+  ];
   return (
     <div className={styles.card}>
       <div className={styles.avatarContainer}>
@@ -43,55 +111,13 @@ const Newprofile: React.FC = () => {
       <p className={styles.workingHours}>{user?.bio || "#Bio Goes Here...."}</p>
       <hr className={styles.divider} />
       <EditProfile />
-      <ul className="text-sm text-gray-800 space-y-3 mt-4">
-        {[
-          ["fas fa-building", user?.college || "College"],
-          ["fas fa-map-marker-alt", user?.city + ", " + user?.state || "Location"],
-          [
-            "fas fa-link",
-            <a
-              href="#"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              Portfolio Videos Link
-            </a>,
-          ],
-          [
-            "fab fa-linkedin",
-            <a
-              href={user?.linkedInId || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              LinkedIn
-            </a>,
-          ],
-          [
-            "fab fa-linkedin",
-            <a
-              href={user?.instagramId || "#"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              Instagram
-            </a>,
-          ],
-          ["fas fa-map-pin", "Located in India"],
-          [
-            "fas fa-user",
-            <>
-              Since <span>{dateuser}</span>
-            </>,
-          ],
-          ["fas fa-language", user?.language || "English"],
-        ].map(([icon, text], index) => (
+      <ul>
+        {infoItems.map(({ icon, content }, index) => (
           <li className="flex items-start gap-3" key={`${icon}-${index}`}>
-            <i className={`${icon} text-gray-500 min-w-[20px] text-base pt-1`}></i>
-            <span className="leading-snug">{text}</span>
+            <i
+              className={`${icon} text-gray-500 min-w-[20px] text-base pt-1`}
+            ></i>
+            <span className="leading-snug">{content}</span>
           </li>
         ))}
       </ul>
