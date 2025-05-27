@@ -5,6 +5,7 @@ import OrderModel from "@/model/Order";
 export async function POST(req: Request) {
   await dbConnect();
   const body = await req.json();
+  
   const newMessage = await OrderModel.create(body);
   return NextResponse.json(newMessage, { status: 201 });
 }

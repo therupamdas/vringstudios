@@ -109,6 +109,20 @@ footer {
   text-decoration: none;
   color: #333;
 }
+.user-image {
+  width: 3vw;
+  height: 3vw;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ddd; /* Light border around images */
+}
+
+.user-info {
+  display: flex;
+  gap: 10px;
+  height: 100%;
+}
+
 
 
 .navbar-brand {

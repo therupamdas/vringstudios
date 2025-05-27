@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Sidebar from "@/components/Sidebar";
 import "./CommunityPage.css";
 import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
@@ -18,11 +17,11 @@ const postSchema = z.object({
 type PostData = z.infer<typeof postSchema>;
 
 interface Message {
-  _id: string;
   username: string;
-  message: string;
+  content: string;
   date: string;
   image: string;
+  budget: string;
 }
 
 const Page: React.FC = () => {
@@ -55,14 +54,42 @@ const Page: React.FC = () => {
       body: JSON.stringify({
         username: user?.username || "Guest",
         image: user?.image || "/defaultuser.png",
-        message: data.message,
+        content: data.message,
         date: new Date().toISOString(),
+        budget: "4000",
       }),
     });
     if (res.ok) {
       reset();
       fetchMessages();
     }
+  };
+
+  const sendOrder = async (msg: Message) => {
+    const res = await fetch("/api/takeorders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username: msg.username,
+        content: msg.content,
+        date: msg.date,
+        image: msg.image,
+        budget: "4000", // You could later make this dynamic if needed
+      }),
+    });
+
+    let data;
+    try {
+      data = await res.json();
+    } catch (err) {
+      throw new Error("Invalid server response");
+    }
+
+    if (!res.ok) {
+      throw new Error(data?.error || "Something went wrong");
+    }
+
+    console.log("Success:", data);
   };
 
   const fetchMessages = async () => {
@@ -87,12 +114,13 @@ const Page: React.FC = () => {
             {/* <SidebarTrigger /> */}
             <div className="postform-header">Post a Request</div>
             <textarea
-              placeholder="How can we help you?"
-              className="postform-input mb-1"
+              placeholder="Write Your Order"
+              className="postform-input mb-2"
               {...register("message")}
             />
+            <textarea placeholder="Amount" className="amount-input mb-2" />
             {errors.message && (
-              <p className="error-text mb-1 text-red-500 ">
+              <p className="error-text mb-2 text-red-500 ">
                 Message must be at least 10 Words
               </p>
             )}
@@ -102,7 +130,7 @@ const Page: React.FC = () => {
           </form>
 
           {messages.map((msg) => (
-            <div key={msg._id} className="post-card">
+            <div key={msg.date} className="post-card">
               <div className="user-info">
                 <Image
                   className="user-image"
@@ -122,10 +150,15 @@ const Page: React.FC = () => {
                 </div>
               </div>
               <div className="user-request">
-                <p>{msg.message}</p>
+                <p>{msg.content}</p>
                 <div className="action-buttons">
-                  <button className="btn accept-btn">Accept</button>
-                  <div className=" flex flex-row">
+                  <button
+                    className="btn accept-btn"
+                    onClick={() => sendOrder(msg)}
+                  >
+                    Accept
+                  </button>
+                  <div className="flex flex-row">
                     <button className="btn flex flex-row gap-2 items-center decline-btn">
                       Negotiate
                     </button>

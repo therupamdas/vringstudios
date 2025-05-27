@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import axios, { AxiosError } from 'axios';
-import dayjs from 'dayjs';
-import { X } from 'lucide-react';
-import { Message } from '@/model/User';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from "react";
+import axios, { AxiosError } from "axios";
+import dayjs from "dayjs";
+import { X } from "lucide-react";
+import { Message } from "@/model/User";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,10 +16,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from './ui/button';
-import { useToast } from '@/components/ui/use-toast';
-import { apiResponse } from '@/types/apiResponse';
+} from "@/components/ui/alert-dialog";
+import { Button } from "./ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { apiResponse } from "@/types/apiResponse";
+import Image from "next/image";
 
 type MessageCardProps = {
   message: Message;
@@ -38,26 +39,40 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
         title: response.data.message,
       });
       onMessageDelete(`${message._id}`);
-
     } catch (error) {
       const axiosError = error as AxiosError<apiResponse>;
       toast({
-        title: 'Error',
+        title: "Error",
         description:
-          axiosError.response?.data.message ?? 'Failed to delete message',
-        variant: 'destructive',
+          axiosError.response?.data.message ?? "Failed to delete message",
+        variant: "destructive",
       });
-    } 
+    }
   };
 
   return (
     <Card className="card-bordered">
       <CardHeader>
         <div className="flex justify-between items-center">
-          <CardTitle>{message.content}</CardTitle>
+          <CardTitle className=" user-info flex justify-between items-center text-base">
+            <Image
+              className="user-image"
+              src={message.image}
+              height="100"
+              width="100"
+              alt="User"
+            />
+            <div className="flex flex-col">
+              <p className="username">{message.username}</p>
+              <p className="timestamp">
+                {dayjs(message.date).format("MMM D, YYYY h:mm A")}
+              </p>
+            </div>
+          </CardTitle>
+
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button variant='destructive'>
+              <Button variant="destructive">
                 <X className="w-5 h-5" />
               </Button>
             </AlertDialogTrigger>
@@ -70,9 +85,7 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel>
-                  Cancel
-                </AlertDialogCancel>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
                 <AlertDialogAction onClick={handleDeleteConfirm}>
                   Continue
                 </AlertDialogAction>
@@ -80,11 +93,8 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
             </AlertDialogContent>
           </AlertDialog>
         </div>
-        <div className="text-sm">
-          {dayjs(message.createdAt).format('MMM D, YYYY h:mm A')}
-        </div>
       </CardHeader>
-      <CardContent></CardContent>
+      <CardContent>{message.content.slice(0, 100) + "..."}</CardContent>
     </Card>
   );
 }

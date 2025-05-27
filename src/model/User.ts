@@ -8,13 +8,14 @@ export interface Message extends Document {
   budget: string,
 }
 const MessageSchema: Schema<Message> = new Schema({
-  username: { type: String, required: true },
-  content: { type: String, required: true },
-  date: { type: String, required: true }, // or Date if it's a date
-  image: { type: String, required: true },
-  budget: { type: String, required: true },
+  username: { type: String, required: false},
+  content: { type: String, required: false },
+  date: { type: String, required: false }, // or Date if it's a date
+  image: { type: String, required: false },
+  budget: { type: String, required: false},
   
 });
+
 
 export interface User extends Document {
   username: string;
@@ -98,8 +99,10 @@ const UserSchema: Schema<User> = new Schema({
     default: () => new Date(),
     required: true,
   },
-  messages: [MessageSchema],
-
+  messages: {
+     type: [MessageSchema],
+    default: []
+  },
   // New optional fields
   instagramId: {
     type: String,

@@ -33,23 +33,23 @@
 .post-card:hover {
   transform: translateY(-5px);
 }
-
+/* 
 .user-info {
   display: flex;
   gap: 10px;
   height: 100%;
-}
+} */
 
 .negmount{
  border-radius: 0 5px 5px 0;
 }
-.user-image {
+/* .user-image {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #ddd; /* Light border around images */
-}
+  border: 2px solid #ddd;
+} */
 
 .username {
   font-weight: bold;
@@ -137,7 +137,21 @@
   font-family: Arial;
   background-color: #f5f5f5; /* Light gray input area */
   border-radius: 5px;
-  color: #333;
+  color: #131313;
+  font-size: 1vw;
+  border: none;
+  outline: none;
+  resize: none;
+  transition: all 0.3s ease;
+}
+.amount-input {
+  height: 3.5vw;
+  width: 64vw;
+  padding-left: 1vw;
+  padding-top: 1vw;
+  background-color: #f5f5f5;/* Light gray input area */
+  border-radius: 5px;
+  color: #131313;
   font-size: 1vw;
   border: none;
   outline: none;

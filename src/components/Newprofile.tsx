@@ -41,7 +41,6 @@ const Newprofile: React.FC = () => {
       <h2 className={styles.name}>{user?.username || "anonymous"}</h2>
       <p className={styles.username}>{user?.email || "anonymous"}</p>
       <p className={styles.workingHours}>{user?.bio || "#Bio Goes Here...."}</p>
-
       <hr className={styles.divider} />
       <EditProfile />
       <ul className="text-sm text-gray-800 space-y-3 mt-4">

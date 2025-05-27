@@ -12,10 +12,9 @@ export async function GET() {
   }
 
   const user = await UserModel.findOne({ email: session.user.email }).lean();
-  console.log(" User in the current session: ")
-  console.log(user);
+
   if (!user) {
-    return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
+    return new Response(JSON.stringify({ error: "User not found getmessages" }), { status: 404 });
   }
 
   return new Response(JSON.stringify({ user }), {
