@@ -27,7 +27,7 @@ export async function POST(req: Request) {
 
   // Parse the request body to get message data
   const body = await req.json();
-  const { username, content, date, image, budget } = body;
+  const { username, content, date, image, budget, istaken} = body;
 
   // Validate required fields (you can expand this as needed)
   if (!username || !content) {
@@ -41,6 +41,7 @@ export async function POST(req: Request) {
     date,
     image,
     budget,
+    istaken,
   } as Message;
 
   // Add the new message to the user's messages array

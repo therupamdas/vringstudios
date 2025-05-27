@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import { useSession, signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import SignUpForm from "./SignUpForm";
 import SignInForm from "./SignInForm";
 import "./SignInCard.css";

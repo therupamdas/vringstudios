@@ -5,13 +5,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 
 import "./CommunityPage.css";
+import OrderModel from "@/model/Order";
 
 const postSchema = z.object({
   message: z.string().min(10),
@@ -73,7 +74,7 @@ const Page: React.FC = () => {
         content: data.message,
         date: new Date().toISOString(),
         budget: data.budget,
-        istaken: false
+        istaken: false,
       }),
     });
 
@@ -82,22 +83,30 @@ const Page: React.FC = () => {
       fetchMessages();
     }
   };
-
+const router = useRouter();
   const sendOrder = async (msg: Message) => {
-    const res = await fetch("/api/takeorders", {
+    const ress = await fetch("/api/takeorders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(msg),
     });
 
+    const response = await fetch("/api/acceptedorder", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ date: msg.date }),
+    });
+    router.replace("/profile")
+
     try {
-      const data = await res.json();
-      if (!res.ok) throw new Error(data?.error || "Something went wrong");
+      const data = await ress.json();
+      if (!ress.ok) throw new Error(data?.error || "Something went wrong");
       console.log("Success:", data);
     } catch (error) {
       console.error(error);
       alert(error instanceof Error ? error.message : "Unknown error");
     }
+
   };
 
   return (
