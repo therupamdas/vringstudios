@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import axios, { AxiosError } from "axios";
-import dayjs from "dayjs";
 import { X } from "lucide-react";
 import { Message } from "@/model/User";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -65,7 +64,16 @@ export function MessageCard({ message, onMessageDelete }: MessageCardProps) {
             <div className="flex flex-col">
               <p className="username">{message.username}</p>
               <p className="timestamp">
-                {dayjs(message.date).format("MMM D, YYYY h:mm A")}
+                {new Date(message.date)
+                  .toLocaleString("en-GB", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: false,
+                  })
+                  .replace(",", "")}
               </p>
             </div>
           </CardTitle>

@@ -5,7 +5,8 @@ export interface Order extends Document {
   content: string;
   date: string;
   image: string;
-  budget: string,
+  budget: string;
+  istaken: boolean;
 }
 
 const OrderSchema = new Schema({
@@ -14,6 +15,7 @@ const OrderSchema = new Schema({
   date: { type: String, required: false }, // or Date if it's a date
   image: { type: String, required: false },
   budget: { type: String, required: false},
+  istaken: { type: Boolean, required: false},
 });
 
 const OrderModel = mongoose.models.Order || mongoose.model("Order", OrderSchema);

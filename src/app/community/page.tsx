@@ -1,17 +1,21 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import "./CommunityPage.css";
+import Image from "next/image";
+
 import { User } from "@/model/User";
 import { AppSidebar } from "@/components/AppSidebar";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import Image from "next/image";
+import { SidebarProvider } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 
+import "./CommunityPage.css";
+
 const postSchema = z.object({
-  message: z.string().min(5),
+  message: z.string().min(10),
+  budget:  z.string().min(0),
 });
 
 type PostData = z.infer<typeof postSchema>;
@@ -22,10 +26,19 @@ interface Message {
   date: string;
   image: string;
   budget: string;
+  istaken: boolean;
 }
 
 const Page: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<PostData>({ resolver: zodResolver(postSchema) });
 
   useEffect(() => {
     async function fetchUser() {
@@ -38,27 +51,32 @@ const Page: React.FC = () => {
     fetchUser();
   }, []);
 
-  const [messages, setMessages] = useState<Message[]>([]);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<PostData>({
-    resolver: zodResolver(postSchema),
-  });
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  const fetchMessages = async () => {
+    const res = await fetch("/api/community");
+    if (res.ok) {
+      const data = await res.json();
+      setMessages(data);
+    }
+  };
 
   const onSubmit = async (data: PostData) => {
     const res = await fetch("/api/community", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         username: user?.username || "Guest",
         image: user?.image || "/defaultuser.png",
         content: data.message,
         date: new Date().toISOString(),
-        budget: "4000",
+        budget: data.budget,
+        istaken: false
       }),
     });
+
     if (res.ok) {
       reset();
       fetchMessages();
@@ -69,61 +87,47 @@ const Page: React.FC = () => {
     const res = await fetch("/api/takeorders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        username: msg.username,
-        content: msg.content,
-        date: msg.date,
-        image: msg.image,
-        budget: "4000", // You could later make this dynamic if needed
-      }),
+      body: JSON.stringify(msg),
     });
 
-    let data;
     try {
-      data = await res.json();
-    } catch (err) {
-      throw new Error("Invalid server response");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Something went wrong");
+      console.log("Success:", data);
+    } catch (error) {
+      console.error(error);
+      alert(error instanceof Error ? error.message : "Unknown error");
     }
-
-    if (!res.ok) {
-      throw new Error(data?.error || "Something went wrong");
-    }
-
-    console.log("Success:", data);
   };
-
-  const fetchMessages = async () => {
-    const res = await fetch("/api/community");
-    const data = await res.json();
-    setMessages(data);
-  };
-
-  useEffect(() => {
-    fetchMessages();
-  }, []);
 
   return (
     <SidebarProvider>
       <AppSidebar />
 
       <div className="community-container">
-        {/* <Sidebar /> */}
-
         <div className="post-section">
           <form className="postform" onSubmit={handleSubmit(onSubmit)}>
-            {/* <SidebarTrigger /> */}
             <div className="postform-header">Post a Request</div>
+
             <textarea
               placeholder="Write Your Order"
-              className="postform-input mb-2"
+              className="postform-input mb-2 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 focus:ring-offset-1"
               {...register("message")}
             />
-            <textarea placeholder="Amount" className="amount-input mb-2" />
+
+            <Input
+              
+              placeholder="Amount"
+              className="amount-input mb-2"
+              {...register("budget")}
+            />
+
             {errors.message && (
-              <p className="error-text mb-2 text-red-500 ">
+              <p className="error-text mb-2 text-red-500">
                 Message must be at least 10 Words
               </p>
             )}
+
             <button className="postform-button" type="submit">
               Submit
             </button>
@@ -135,42 +139,51 @@ const Page: React.FC = () => {
                 <Image
                   className="user-image"
                   src={msg.image}
-                  height="100"
-                  width="100"
+                  height={100}
+                  width={100}
                   alt="User"
                 />
                 <div className="flex flex-col">
                   <p className="username">{msg.username}</p>
                   <p className="timestamp">
-                    {new Date(msg.date).toLocaleString(undefined, {
-                      dateStyle: "short",
-                      timeStyle: "short",
-                    })}
+                    {new Date(msg.date)
+                      .toLocaleString("en-GB", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        hour12: false,
+                      })
+                      .replace(",", "")}
                   </p>
                 </div>
               </div>
+
               <div className="user-request">
                 <p>{msg.content}</p>
-                <div className="action-buttons">
-                  <button
-                    className="btn accept-btn"
-                    onClick={() => sendOrder(msg)}
-                  >
-                    Accept
-                  </button>
-                  <div className="flex flex-row">
-                    <button className="btn flex flex-row gap-2 items-center decline-btn">
-                      Negotiate
+                {!msg.istaken ? (
+                  <div className="action-buttons">
+                    <button
+                      className="btn accept-btn"
+                      onClick={() => sendOrder(msg)}
+                    >
+                      Accept
                     </button>
-                    <Input
-                      className="negmount h-10 text-base w-25"
-                      placeholder="Amount"
-                    />
+
+                    <div className="flex flex-row gap-0 items-center">
+                      <button className="btn h-10 decline-btn">Negotiate</button>
+                      <Input
+                        className="negmount h-10 text-base w-25"
+                        placeholder="Amount"
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="action-buttons">
-                  <button className="btn bg-yellow-400">Taken</button>
-                </div>
+                ) : (
+                  <div className="action-buttons">
+                    <button className="btn bg-yellow-400">Taken</button>
+                  </div>
+                )}
               </div>
             </div>
           ))}

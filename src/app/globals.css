@@ -122,6 +122,15 @@ footer {
   gap: 10px;
   height: 100%;
 }
+.timestamp{
+  font-size: 0.8vw;
+  font-weight: 100;
+}
+.username {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #444; /* Dark gray for contrast */
+}
 
 
 
