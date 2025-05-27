@@ -66,7 +66,6 @@ const Page: React.FC = () => {
       });
       setMessages(response.data.messages || []);
       console.log("Fetched messages:", response.data.messages);
-
       if (refresh) {
         toast({
           title: "Refreshed messages",
