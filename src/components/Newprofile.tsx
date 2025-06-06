@@ -53,7 +53,7 @@ const Newprofile: React.FC = () => {
           [
             "fas fa-link",
             <a
-              href={"#"}
+              href={"okhttps://www.youtube.com/watch?v=example"} // Replace with actual link
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
@@ -64,7 +64,7 @@ const Newprofile: React.FC = () => {
           [
             "fab fa-linkedin",
             <a
-              href={user?.linkedInId || "#"}
+              href={user?.linkedInId || "pk.linkedin.com/in/example"}
               target="_blank"
               rel="noopener noreferrer"
               className="hover:underline"
@@ -73,7 +73,7 @@ const Newprofile: React.FC = () => {
             </a>,
           ],
           [
-            "fab fa-linkedin",
+            "fab fa-instagram",
             <a
               href={user?.instagramId || "Instagram"}
               target="_blank"
