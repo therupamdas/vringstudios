@@ -136,13 +136,13 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <div className="profilepage">
-        <div className="leftsection">
+      <div className="font-sans m-0 p-0 bg-white text-gray-700 flex flex-row justify-evenly">
+        <div className="flex justify-center mr-[5px]">
           <Newprofile />
         </div>
 
-        <div className="rightsection">
-          <main className="containerprofile">
+        <main className=" w-6/12 py-10">
+          <div className="bg-gray-50 border-1 border-gray-200 p-3 rounded-sm">
             <div className="mb-4">
               <Switch
                 {...register("acceptMessages")}
@@ -154,7 +154,7 @@ const Page: React.FC = () => {
                 Accept Orders: {acceptMessages ? "On" : "Off"}
               </span>
             </div>
-            <h2 className="text-lg font-semibold mb-2">
+            <h2 className="ml-0.5 text-lg font-semibold mb-2">
               Copy Your Account Address
             </h2>
             <div className="flex items-center">
@@ -162,28 +162,29 @@ const Page: React.FC = () => {
                 type="text"
                 value={profileUrl}
                 disabled
-                className="input input-bordered w-full p-2 mr-2 border rounded border-#0"
+                className="input input-bordered h-9 w-full p-2 border rounded rounded-r-none "
               />
-              <Button onClick={copyToClipboard}>Copy</Button>
+              <Button className="h-9 rounded-l-none" onClick={copyToClipboard}>
+                Copy
+              </Button>
             </div>
-            <Separator className="my-6" />
-            <h1>Accepted Orders</h1>
+          </div>
+          <h1 className="my-6">Accepted Orders</h1>
 
-            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-              {messages.length > 0 ? (
-                messages.map((message) => (
-                  <MessageCard
-                    key={message?.id}
-                    message={message}
-                    onMessageDelete={handleDeleteMessage}
-                  />
-                ))
-              ) : (
-                <p>No messages to display.</p>
-              )}
-            </div>
-          </main>
-        </div>
+          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {messages.length > 0 ? (
+              messages.map((message, index) => (
+                <MessageCard
+                  key={message?.date || index}
+                  message={message}
+                  onMessageDelete={handleDeleteMessage}
+                />
+              ))
+            ) : (
+              <p>No messages to display.</p>
+            )}
+          </div>
+        </main>
       </div>
     </>
   );
