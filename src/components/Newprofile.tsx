@@ -45,58 +45,65 @@ const Newprofile: React.FC = () => {
       <EditProfile />
       <ul className="text-sm text-gray-800 space-y-3 mt-4">
         {[
-          ["fas fa-building", user?.college || "College"],
-          [
-            "fas fa-map-marker-alt",
-            user?.city + ", " + user?.state || "Location",
-          ],
-          [
-            "fas fa-link",
-            <a
-              href={"okhttps://www.youtube.com/watch?v=example"} // Replace with actual link
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              Portfolio Videos Link
-            </a>,
-          ],
-          [
-            "fab fa-linkedin",
-            <a
-              href={user?.linkedInId || "pk.linkedin.com/in/example"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              {"LinkedIn"}
-            </a>,
-          ],
-          [
-            "fab fa-instagram",
-            <a
-              href={user?.instagramId || "Instagram"}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:underline"
-            >
-              {"Instagram"}
-            </a>,
-          ],
-          ["fas fa-map-pin", "Located in India"],
-          [
-            "fas fa-user",
-            <>
-              Since <span>{dateuser}</span>
-            </>,
-          ],
-          ["fas fa-language", user?.language || "English"],
-        ].map(([icon, text], i) => (
-          <li className="flex items-start gap-3" key={`${icon}-${i}`}>
-            <i className={`${icon} text-gray-500 min-w-6 text-base pt-1`}></i>
-            <span className="leading-snug">{text}</span>
-          </li>
-        ))}
+  ["fas fa-building", user?.college || "College"],
+  [
+    "fas fa-map-marker-alt",
+    user?.city && user?.state
+      ? `${user.city}, ${user.state}`
+      : "Location",
+  ],
+  [
+    "fas fa-link",
+    <a
+      href={"https://www.youtube.com/watch?v=example"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline"
+    >
+      Portfolio Videos Link
+    </a>,
+  ],
+  [
+    "fab fa-linkedin",
+    <a
+      href={user?.linkedInId || "https://pk.linkedin.com/in/example"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline"
+    >
+      LinkedIn
+    </a>,
+  ],
+  [
+    "fab fa-instagram",
+    <a
+      href={user?.instagramId || "https://www.instagram.com/example"}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="hover:underline"
+    >
+      Instagram
+    </a>,
+  ],
+  ["fas fa-map-pin", "Located in India"],
+  [
+    "fas fa-user",
+    <>
+      Since <span>{dateuser}</span>
+    </>,
+  ],
+  ["fas fa-language", user?.language || "English"],
+].map(([icon, content], index) => (
+  <li className="flex items-start gap-3" key={`${icon}-${index}`}>
+    <i className={`${icon} mt-1`} />
+    {typeof content === "string" || typeof content === "number" ? (
+      <span>{content}</span>
+    ) : (
+      content
+    )}
+  </li>
+))}
+
       </ul>
     </div>
   );
