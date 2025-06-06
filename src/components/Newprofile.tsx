@@ -92,7 +92,7 @@ const Newprofile: React.FC = () => {
           ],
           ["fas fa-language", user?.language || "English"],
         ].map(([icon, text], i) => (
-          <li className="flex items-start gap-3" key={i}>
+          <li className="flex items-start gap-3" key={`${icon}-${i}`}>
             <i className={`${icon} text-gray-500 min-w-6 text-base pt-1`}></i>
             <span className="leading-snug">{text}</span>
           </li>

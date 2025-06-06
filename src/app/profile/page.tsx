@@ -13,7 +13,6 @@ import { apiResponse } from "@/types/apiResponse";
 import { User } from "next-auth";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { MessageCard } from "@/components/MessageCard";
 
 const Page: React.FC = () => {
