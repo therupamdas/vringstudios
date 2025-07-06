@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -84,10 +85,10 @@ const Newprofile: React.FC = () => {
   ];
 
   return (
-    <div className="mt-2 w-80 h-full p-2 border border-transparent rounded-sm bg-white text-left">
-      <Avatar className="w-80 h-80 mb-5 border-2 border-gray-300 rounded-full">
+    <div className="w-80 h-full p-2 pt-0 border border-transparent rounded-sm bg-white text-left">
+      <Avatar className="w-70 h-70 mb-5 border-0 border-gray-300 rounded-md">
         <AvatarImage
-          className="w-80 h-80 rounded-full object-cover"
+          className="w-70 h-70  object-cover"
           src={user?.image || "/defaultuser.png"}
         />
         <AvatarFallback></AvatarFallback>

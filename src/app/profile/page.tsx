@@ -111,7 +111,7 @@ const Page: React.FC = () => {
       {/* Main Content */}
       <main className="w-full md:w-8/12">
         {/* Switch & Copy Section */}
-        <div className="bg-gray-100 p-4 rounded-sm">
+        <div className="bg-gray-100 p-4 rounded-md">
           <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center">
             <Switch
               {...register("acceptMessages")}
