@@ -107,7 +107,9 @@ const Newprofile: React.FC = () => {
       <ul className="text-sm text-gray-800 space-y-3 mt-4">
         {infoItems.map((item, index) => (
           <li className="flex items-start gap-3" key={index}>
-            <i className={`${item.icon} text-gray-600 min-w-6 text-base pt-1`} />
+            <i
+              className={`${item.icon} text-gray-600 min-w-6 text-base pt-1`}
+            />
             {typeof item.content === "string" ||
             typeof item.content === "number" ? (
               <span>{item.content}</span>
