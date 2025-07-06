@@ -1,4 +1,6 @@
 "use client";
+import Link from "next/link";
+import { Button } from "./ui/button";
 import React from "react";
 import SignInCard from "./SignInCard";
 import { useSession, signOut } from "next-auth/react";
@@ -33,30 +35,40 @@ const Navbar = () => {
      flex justify-between items-center border-b border-gray-200 
       transition-all ease-linear duration-100 cursor-pointer"
     >
-      <div className="pl-5 text-2xl font-bold text-green-600">VringStudios</div>
+      <Link
+            href="/" className="pl-5 text-2xl font-bold text-green-600">VringStudios</Link>
       <div className="flex transition-all duration-1000 ease-in-out mr-2">
-        <a
-          href="/"
-          className="text-gray-600 no-underline p-4 cursor-pointer hover:text-green-600"
-        >
-          Home
-        </a>
-        <a
-          href="about"
-          className="text-gray-600 no-underline p-4 cursor-pointer hover:text-green-600"
-        >
-          About
-        </a>
-        <a
-          href="community"
-          className="text-gray-600 no-underline p-4 cursor-pointer hover:text-green-600"
-        >
-          Community
-        </a>
+        <Button className="my-2 mx-1" asChild variant="ghost">
+          <Link
+            href="/"
+            className="text-gray-600 no-underline cursor-pointer hover:text-green-600"
+          >
+            Home
+          </Link>
+        </Button>
+
+        <Button className="my-2 mx-1" asChild variant="ghost">
+          <Link
+            href="about"
+            className="text-gray-600 no-underline cursor-pointer hover:text-green-600"
+          >
+            About
+          </Link>
+        </Button>
+
+        <Button className="my-2 mx-1" asChild variant="ghost">
+          <Link
+            href="community"
+            className="text-gray-600 no-underline cursor-pointer hover:text-green-600"
+          >
+            Community
+          </Link>
+        </Button>
+
+        
         {!session && (
           <Dialog>
             <DialogTitle></DialogTitle>
-            {/* <DialogTrigger className="text-gray-600 no-underline p-4 cursor-pointer hover:text-green-600"> */}
             <DialogTrigger>
               <Avatar className="border-2 hover:border-2 hover:border-green-600 transition-all duration-100">
                 <AvatarImage
