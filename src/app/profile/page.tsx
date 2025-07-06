@@ -17,15 +17,11 @@ import { MessageCard } from "@/components/MessageCard";
 
 const Page: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSwitchLoading, setIsSwitchLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Start as loading
+  const [isSwitchLoading, setIsSwitchLoading] = useState(true); // Start as loading
   const [profileUrl, setProfileUrl] = useState("");
 
-  const handleDeleteMessage = (messageId: string) => {
-    setMessages(messages.filter((message) => message._id !== messageId));
-  };
-
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
 
   const form = useForm({
     resolver: zodResolver(acceptMessageSchema),
@@ -34,60 +30,38 @@ const Page: React.FC = () => {
   const { register, watch, setValue } = form;
   const acceptMessages = watch("acceptMessages");
 
-  const fetchAcceptMessages = useCallback(async () => {
-    setIsSwitchLoading(true);
-    try {
-      const response = await axios.get("/api/acceptmessages", {
-        withCredentials: true,
-      });
-      setValue("acceptMessages", response.data.isAcceptingMessages);
-    } catch (error) {
-      const axiosError = error as AxiosError<apiResponse>;
-      toast("Error", {
-        description:
-          axiosError.response?.data.message || "Failed to fetch settings",
-      });
-    } finally {
-      setIsSwitchLoading(false);
-    }
-  }, [setValue]);
-
-  const fetchMessages = useCallback(async (refresh = false) => {
-    setIsLoading(true);
-
-    try {
-      const response = await axios.get("/api/getmessages", {
-        withCredentials: true,
-      });
-      setMessages(response.data.messages || []);
-      console.log("Fetched messages:", response.data.messages);
-
-      if (refresh) {
-        toast("Refreshed messages", {
-          description: "Showing Latest Messages",
-        });
-      }
-    } catch (error) {
-      const axiosError = error as AxiosError<apiResponse>;
-      toast("Error", {
-        description:
-          axiosError.response?.data.message || "Failed to fetch messages",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
   useEffect(() => {
     if (!session?.user) return;
 
-    fetchMessages();
-    fetchAcceptMessages();
+    const fetchAll = async () => {
+      setIsLoading(true);
+      setIsSwitchLoading(true);
+      try {
+        const [messagesRes, acceptRes] = await Promise.all([
+          axios.get("/api/getmessages", { withCredentials: true }),
+          axios.get("/api/acceptmessages", { withCredentials: true }),
+        ]);
 
-    const baseUrl = `${window.location.protocol}//${window.location.host}`;
-    const username = (session.user as User).username;
-    setProfileUrl(`${baseUrl}/u/${username}`);
-  }, [session, fetchMessages, fetchAcceptMessages]);
+        setMessages(messagesRes.data.messages || []);
+        setValue("acceptMessages", acceptRes.data.isAcceptingMessages);
+
+        const baseUrl = `${window.location.protocol}//${window.location.host}`;
+        const username = (session.user as User).username;
+        setProfileUrl(`${baseUrl}/u/${username}`);
+      } catch (error) {
+        const axiosError = error as AxiosError<apiResponse>;
+        toast("Error", {
+          description:
+            axiosError.response?.data.message || "Failed to load data",
+        });
+      } finally {
+        setIsLoading(false);
+        setIsSwitchLoading(false);
+      }
+    };
+
+    fetchAll();
+  }, [session, setValue]);
 
   const handleSwitchChange = async () => {
     try {
@@ -109,6 +83,10 @@ const Page: React.FC = () => {
     }
   };
 
+  const handleDeleteMessage = (messageId: string) => {
+    setMessages(messages.filter((message) => message._id !== messageId));
+  };
+
   const copyToClipboard = () => {
     if (!profileUrl) return;
     navigator.clipboard.writeText(profileUrl);
@@ -117,74 +95,73 @@ const Page: React.FC = () => {
     });
   };
 
-  if (!session || !session.user) {
-    return <div>Loading...</div>;
+  if (status === "loading" || !session?.user) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <p className="text-gray-500">Loading...</p>
+      </div>
+    );
   }
 
-return (
-  <div className="font-sans py-10 m-0 bg-white text-gray-700 flex flex-col lg:flex-row justify-center gap-6 px-4">
-    
-    {/* Sidebar Profile */}
-    {/* <div className="w-full lg:w-3/12 flex justify-center p-3 bg-gray-100 rounded-sm"> */}
+  return (
+    <div className="font-sans py-10 m-0 bg-white text-gray-700 flex flex-col lg:flex-row justify-center gap-6 px-4">
+      {/* Sidebar Profile */}
       <Newprofile />
-    {/* </div> */}
 
-    {/* Main Content */}
-    <main className="w-full md:w-8/12">
-      
-      {/* Switch & Copy Section */}
-      <div className="bg-gray-100 p-4 rounded-sm">
-        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center">
-          <Switch
-            {...register("acceptMessages")}
-            checked={acceptMessages}
-            onCheckedChange={handleSwitchChange}
-            disabled={isSwitchLoading}
-          />
-          <span className="ml-0 sm:ml-2 mt-2 sm:mt-0 text-sm md:text-base">
-            Accept Orders: {acceptMessages ? "On" : "Off"}
-          </span>
-        </div>
-
-        <h2 className="text-lg font-semibold mb-2">
-          Copy Your Account Address
-        </h2>
-
-        <div className="flex flex-col sm:flex-row gap-2">
-          <input
-            type="text"
-            value={profileUrl}
-            disabled
-            className="input input-bordered h-9 w-full p-2 border rounded sm:rounded-r-none"
-          />
-          <Button className="h-9 sm:rounded-l-none" onClick={copyToClipboard}>
-            Copy
-          </Button>
-        </div>
-      </div>
-
-      {/* Orders Section */}
-      <h1 className="my-6 text-xl font-medium">
-        Accepted Orders
-      </h1>
-
-      <div className="bg-gray-100 p-4 rounded-sm mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {messages.length > 0 ? (
-          messages.map((message, index) => (
-            <MessageCard
-              key={message?.date || index}
-              message={message}
-              onMessageDelete={handleDeleteMessage}
+      {/* Main Content */}
+      <main className="w-full md:w-8/12">
+        {/* Switch & Copy Section */}
+        <div className="bg-gray-100 p-4 rounded-sm">
+          <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center">
+            <Switch
+              {...register("acceptMessages")}
+              checked={acceptMessages}
+              onCheckedChange={handleSwitchChange}
+              disabled={isSwitchLoading}
             />
-          ))
-        ) : (
-          <p>No messages to display.</p>
-        )}
-      </div>
-    </main>
-  </div>
-);
+            <span className="ml-0 sm:ml-2 mt-2 sm:mt-0 text-sm md:text-base">
+              Accept Orders: {acceptMessages ? "On" : "Off"}
+            </span>
+          </div>
 
+          <h2 className="text-lg font-semibold mb-2">
+            Copy Your Account Address
+          </h2>
+
+          <div className="flex flex-col sm:flex-row gap-2">
+            <input
+              type="text"
+              value={profileUrl}
+              disabled
+              className="input input-bordered h-9 w-full p-2 border rounded sm:rounded-r-none"
+            />
+            <Button className="h-9 sm:rounded-l-none" onClick={copyToClipboard}>
+              Copy
+            </Button>
+          </div>
+        </div>
+
+        {/* Orders Section */}
+        <h1 className="my-6 text-xl font-medium">Accepted Orders</h1>
+
+        <div className="bg-gray-100 p-4 rounded-sm mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {isLoading ? (
+            <p>Loading messages...</p>
+          ) : messages.length > 0 ? (
+            messages.map((message, index) => (
+              <MessageCard
+                key={message?._id || index}
+                message={message}
+                onMessageDelete={handleDeleteMessage}
+              />
+            ))
+          ) : (
+            <p>No messages to display.</p>
+          )}
+        </div>
+      </main>
+    </div>
+  );
 };
 
 export default Page;
