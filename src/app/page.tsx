@@ -19,11 +19,11 @@ export default function Home() {
       <div className="flex flex-row justify-center items-stretch gap-6 mt-10 px-4 flex-wrap">
         <Card className="w-full max-w-md shadow-md">
           <CardHeader>
-            <CardTitle>✨ What's New</CardTitle>
+            <CardTitle>✨ What is New?</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600 mb-2">
-              Check out the latest updates and features we've added this week!
+              Check out the latest updates and features we have added this week!
             </p>
             <Button>View Updates</Button>
           </CardContent>
