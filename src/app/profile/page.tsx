@@ -1,9 +1,8 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import "./profilepage.css";
 import Newprofile from "@/components/Newprofile";
 import { Message } from "@/model/User";
-import { useToast } from "@/components/ui/use-toast";
+import { toast } from "sonner";
 import { useSession } from "next-auth/react";
 import { acceptMessageSchema } from "@/schemas/acceptMessageSchema";
 import { useForm } from "react-hook-form";
@@ -20,8 +19,6 @@ const Page: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
   const [profileUrl, setProfileUrl] = useState("");
-  console.log(isLoading)
-  const { toast } = useToast();
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id !== messageId));
@@ -45,11 +42,9 @@ const Page: React.FC = () => {
       setValue("acceptMessages", response.data.isAcceptingMessages);
     } catch (error) {
       const axiosError = error as AxiosError<apiResponse>;
-      toast({
-        title: "Error",
+      toast("Error", {
         description:
           axiosError.response?.data.message || "Failed to fetch settings",
-        variant: "destructive",
       });
     } finally {
       setIsSwitchLoading(false);
@@ -65,19 +60,17 @@ const Page: React.FC = () => {
       });
       setMessages(response.data.messages || []);
       console.log("Fetched messages:", response.data.messages);
+
       if (refresh) {
-        toast({
-          title: "Refreshed messages",
+        toast("Refreshed messages", {
           description: "Showing Latest Messages",
         });
       }
     } catch (error) {
       const axiosError = error as AxiosError<apiResponse>;
-      toast({
-        title: "Error",
+      toast("Error", {
         description:
           axiosError.response?.data.message || "Failed to fetch messages",
-        variant: "destructive",
       });
     } finally {
       setIsLoading(false);
@@ -105,17 +98,12 @@ const Page: React.FC = () => {
         { withCredentials: true }
       );
       setValue("acceptMessages", !acceptMessages);
-      toast({
-        title: response.data.message,
-        variant: "default",
-      });
+      toast(response.data.message, {});
     } catch (error) {
       const axiosError = error as AxiosError<apiResponse>;
-      toast({
-        title: "Error",
+      toast("Error", {
         description:
           axiosError.response?.data.message || "Failed to update setting",
-        variant: "destructive",
       });
     }
   };
@@ -123,8 +111,7 @@ const Page: React.FC = () => {
   const copyToClipboard = () => {
     if (!profileUrl) return;
     navigator.clipboard.writeText(profileUrl);
-    toast({
-      title: "URL Copied",
+    toast("URL Copied", {
       description: "Copied to clipboard",
     });
   };
@@ -133,60 +120,70 @@ const Page: React.FC = () => {
     return <div>Loading...</div>;
   }
 
-  return (
-    <>
-      <div className="font-sans m-0 p-0 bg-white text-gray-700 flex flex-row justify-evenly">
-        <div className="flex justify-center mr-[5px]">
-          <Newprofile />
+return (
+  <div className="font-sans py-10 m-0 bg-white text-gray-700 flex flex-col lg:flex-row justify-center gap-6 px-4">
+    
+    {/* Sidebar Profile */}
+    {/* <div className="w-full lg:w-3/12 flex justify-center p-3 bg-gray-100 rounded-sm"> */}
+      <Newprofile />
+    {/* </div> */}
+
+    {/* Main Content */}
+    <main className="w-full md:w-8/12">
+      
+      {/* Switch & Copy Section */}
+      <div className="bg-gray-100 p-4 rounded-sm">
+        <div className="mb-4 flex flex-col sm:flex-row items-start sm:items-center">
+          <Switch
+            {...register("acceptMessages")}
+            checked={acceptMessages}
+            onCheckedChange={handleSwitchChange}
+            disabled={isSwitchLoading}
+          />
+          <span className="ml-0 sm:ml-2 mt-2 sm:mt-0 text-sm md:text-base">
+            Accept Orders: {acceptMessages ? "On" : "Off"}
+          </span>
         </div>
 
-        <main className=" w-6/12 py-10">
-          <div className="bg-gray-50 border-1 border-gray-200 p-3 rounded-sm">
-            <div className="mb-4">
-              <Switch
-                {...register("acceptMessages")}
-                checked={acceptMessages}
-                onCheckedChange={handleSwitchChange}
-                disabled={isSwitchLoading}
-              />
-              <span className="ml-2">
-                Accept Orders: {acceptMessages ? "On" : "Off"}
-              </span>
-            </div>
-            <h2 className="ml-0.5 text-lg font-semibold mb-2">
-              Copy Your Account Address
-            </h2>
-            <div className="flex items-center">
-              <input
-                type="text"
-                value={profileUrl}
-                disabled
-                className="input input-bordered h-9 w-full p-2 border rounded rounded-r-none "
-              />
-              <Button className="h-9 rounded-l-none" onClick={copyToClipboard}>
-                Copy
-              </Button>
-            </div>
-          </div>
-          <h1 className="my-6">Accepted Orders</h1>
+        <h2 className="text-lg font-semibold mb-2">
+          Copy Your Account Address
+        </h2>
 
-          <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-            {messages.length > 0 ? (
-              messages.map((message, index) => (
-                <MessageCard
-                  key={message?.date || index}
-                  message={message}
-                  onMessageDelete={handleDeleteMessage}
-                />
-              ))
-            ) : (
-              <p>No messages to display.</p>
-            )}
-          </div>
-        </main>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <input
+            type="text"
+            value={profileUrl}
+            disabled
+            className="input input-bordered h-9 w-full p-2 border rounded sm:rounded-r-none"
+          />
+          <Button className="h-9 sm:rounded-l-none" onClick={copyToClipboard}>
+            Copy
+          </Button>
+        </div>
       </div>
-    </>
-  );
+
+      {/* Orders Section */}
+      <h1 className="my-6 text-xl font-medium">
+        Accepted Orders
+      </h1>
+
+      <div className="bg-gray-100 p-4 rounded-sm mt-4 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {messages.length > 0 ? (
+          messages.map((message, index) => (
+            <MessageCard
+              key={message?.date || index}
+              message={message}
+              onMessageDelete={handleDeleteMessage}
+            />
+          ))
+        ) : (
+          <p>No messages to display.</p>
+        )}
+      </div>
+    </main>
+  </div>
+);
+
 };
 
 export default Page;

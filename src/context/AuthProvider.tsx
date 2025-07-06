@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 import { SessionProvider } from "next-auth/react";
 import { useEffect, useState, createContext, useContext } from "react";
