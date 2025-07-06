@@ -1,44 +1,37 @@
 "use client";
-import React, { useState, useEffect } from "react";
-
+import React from "react";
 import SignInCard from "./SignInCard";
 import { useSession, signOut } from "next-auth/react";
-import { User } from "@/model/User";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Dialog, DialogContent,  DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useProfile } from "@/context/AuthProvider";
 
 const Navbar = () => {
-  const [user, setUser] = useState<User | null>(null);
-  useEffect(() => {
-    async function fetchUser() {
-      const res = await fetch("/api/profile");
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      }
-    }
-    fetchUser();
-  }, []);
-
+  const { user } = useProfile();
   const { data: session } = useSession();
   const router = useRouter();
   const handleClick = () => {
     router.push("/profile");
   };
 
-   return (
+  return (
     <nav
       className="
-     bg-white sticky top-0 p-0
+     bg-white sticky top-0 p-0 z-50
      flex justify-between items-center border-b border-gray-200 
-      transition-all ease-linear duration-[100ms] cursor-pointer"
+      transition-all ease-linear duration-100 cursor-pointer"
     >
       <div className="pl-5 text-2xl font-bold text-green-600">VringStudios</div>
       <div className="flex transition-all duration-1000 ease-in-out mr-2">
